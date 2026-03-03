@@ -15,9 +15,6 @@ depends_on = None
 
 
 def upgrade() -> None:
-    # Enable pgvector extension if available
-    op.execute("CREATE EXTENSION IF NOT EXISTS vector")
-
     op.create_table('users',
         sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column('username', sa.String(64), nullable=True),
