@@ -1,0 +1,386 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+// ========================
+// Reset & Base
+// ========================
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --gold: #{$gold};
+  --gold-light: #{$gold-light};
+  --gold-dark: #{$gold-dark};
+  --platinum: #{$platinum};
+  --deep-purple: #{$deep-purple};
+  --cyan: #{$cyan};
+  --cyan-glow: #{$cyan-glow};
+  --pink: #{$pink};
+  --bg-black: #{$bg-black};
+  --bg-dark: #{$bg-dark};
+  --glass: #{$glass};
+  --glass-border: #{$glass-border};
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-sans;
+  background: $bg-black;
+  color: $platinum;
+  overflow-x: hidden;
+  cursor: none;
+  @include custom-scrollbar;
+
+  @include respond-to(md) {
+    cursor: auto;
+  }
+}
+
+// ========================
+// Custom Cursor
+// ========================
+.cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid $gold;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: $z-cursor;
+  transition: transform 0.15s, width 0.3s, height 0.3s, opacity 0.3s;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+
+  &--hover {
+    width: 40px;
+    height: 40px;
+  }
+
+  @include respond-to(md) { display: none; }
+}
+
+.cursor-follower {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1px solid $cyan;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: $z-cursor - 1;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s;
+  opacity: 0.5;
+  transform: translate(-50%, -50%);
+
+  @include respond-to(md) { display: none; }
+}
+
+// ========================
+// Particle Canvas
+// ========================
+#particles-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+// ========================
+// Gradient Background
+// ========================
+.gradient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(0, 245, 255, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 0, 110, 0.04) 0%, transparent 50%),
+    linear-gradient(135deg, $deep-purple 0%, $bg-black 100%);
+  animation: gradientPulse 15s ease infinite;
+}
+
+// ========================
+// Keyframe Animations
+// ========================
+@keyframes gradientPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.8; }
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25%       { transform: translateY(-16px) rotate(2deg); }
+  50%       { transform: translateY(-28px) rotate(-2deg); }
+  75%       { transform: translateY(-14px) rotate(1deg); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
+  50%       { box-shadow: 0 0 60px $gold, 0 0 80px $gold-light; }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.3); }
+}
+
+@keyframes shine {
+  0%   { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(200%) translateY(200%) rotate(45deg); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulseRing {
+  0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+  50%  { transform: translate(-50%, -50%) scale(1.3); opacity: 0.15; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+}
+
+@keyframes scrollDot {
+  0%   { cy: 10; opacity: 1; }
+  100% { cy: 38; opacity: 0; }
+}
+
+@keyframes typingBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+// ========================
+// Utility Classes
+// ========================
+.gold-text    { @include gold-text; }
+.cyan-text    { @include cyan-text; }
+.serif        { font-family: $font-serif; }
+
+.fade-in-up   { animation: fadeInUp 0.6s ease both; }
+.fade-in-down { animation: fadeInDown 0.6s ease both; }
+.fade-in      { animation: fadeIn 0.4s ease both; }
+.scale-in     { animation: scaleIn 0.5s ease both; }
+
+// Section header reused
+.section-header {
+  text-align: center;
+  margin-bottom: $space-16;
+
+  &__tag {
+    display: inline-block;
+    @include glass-card;
+    padding: $space-2 $space-5;
+    border-radius: $radius-pill;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $gold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: $space-6;
+    animation: fadeInDown 0.7s ease 0.1s both;
+  }
+
+  &__title {
+    font-family: $font-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    @include gradient-text($platinum, $gold, $cyan);
+    margin-bottom: $space-4;
+    animation: fadeInUp 0.7s ease 0.2s both;
+  }
+
+  &__subtitle {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: $platinum;
+    opacity: 0.75;
+    max-width: 600px;
+    margin: 0 auto;
+    animation: fadeInUp 0.7s ease 0.3s both;
+  }
+}
+
+// Buttons
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: $radius-pill;
+  font-family: $font-sans;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: $transition-slow;
+  position: relative;
+  overflow: hidden;
+  @include shine-overlay;
+
+  &--gold {
+    background: linear-gradient(135deg, $gold, $gold-light);
+    color: $deep-purple;
+    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.35);
+    z-index: 1;
+
+    &:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 16px 50px rgba(255, 215, 0, 0.55);
+    }
+    &:active { transform: translateY(-1px); }
+  }
+
+  &--outline-cyan {
+    background: transparent;
+    border: 2px solid $cyan;
+    color: $cyan;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: $cyan;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+      z-index: -1;
+    }
+
+    &:hover {
+      color: $deep-purple;
+      transform: translateY(-4px);
+      box-shadow: $shadow-cyan;
+      &::after { transform: scaleX(1); }
+    }
+  }
+
+  &--outline-gold {
+    background: transparent;
+    border: 1px solid rgba($gold, 0.4);
+    color: $gold;
+
+    &:hover {
+      background: rgba($gold, 0.1);
+      border-color: $gold;
+      transform: translateY(-2px);
+    }
+  }
+
+  &--ghost {
+    background: $glass;
+    border: 1px solid $glass-border;
+    color: $platinum;
+    backdrop-filter: blur(10px);
+
+    &:hover {
+      background: $glass-hover;
+      border-color: rgba($platinum, 0.25);
+    }
+  }
+
+  &--sm {
+    padding: 0.55rem 1.4rem;
+    font-size: 0.88rem;
+  }
+  &--lg {
+    padding: 1.3rem 3.5rem;
+    font-size: 1.15rem;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  &--loading {
+    pointer-events: none;
+    &::after {
+      content: '';
+      width: 16px; height: 16px;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+  }
+}
+
+// Model badges
+.badge {
+  display: inline-block;
+  padding: $space-2 $space-4;
+  border-radius: $radius-pill;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: $transition-base;
+  cursor: default;
+
+  &--gold {
+    background: linear-gradient(135deg, rgba($gold, 0.15), rgba($cyan, 0.12));
+    border: 1px solid rgba($gold, 0.5);
+    color: $gold;
+    &:hover { background: $gold; color: $deep-purple; transform: scale(1.05); }
+  }
+
+  &--cyan {
+    background: rgba($cyan, 0.1);
+    border: 1px solid rgba($cyan, 0.4);
+    color: $cyan;
+  }
+
+  &--glass {
+    @include glass-card;
+    color: $platinum;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+}

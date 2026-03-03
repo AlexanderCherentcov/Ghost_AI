@@ -1,0 +1,71 @@
+// ========================
+// Ghost AI Design Tokens
+// ========================
+
+// Colors
+$gold:          #FFD700;
+$gold-light:    #FFE55C;
+$gold-dark:     #B8860B;
+$platinum:      #E5E4E2;
+$deep-purple:   #1A0033;
+$purple:        #2D1B69;
+$purple-light:  #4A2E8C;
+$cyan:          #00F5FF;
+$cyan-glow:     rgba(0, 245, 255, 0.5);
+$pink:          #FF006E;
+$bg-black:      #000000;
+$bg-dark:       #0A0014;
+$glass:         rgba(255, 255, 255, 0.05);
+$glass-border:  rgba(255, 255, 255, 0.10);
+$glass-hover:   rgba(255, 255, 255, 0.08);
+
+// Typography
+$font-serif:    'Playfair Display', Georgia, serif;
+$font-sans:     'Syne', system-ui, sans-serif;
+
+// Spacing scale
+$space-1:  4px;
+$space-2:  8px;
+$space-3:  12px;
+$space-4:  16px;
+$space-5:  20px;
+$space-6:  24px;
+$space-8:  32px;
+$space-10: 40px;
+$space-12: 48px;
+$space-16: 64px;
+$space-20: 80px;
+$space-24: 96px;
+
+// Border radius
+$radius-sm:  8px;
+$radius-md:  16px;
+$radius-lg:  24px;
+$radius-xl:  32px;
+$radius-pill: 9999px;
+
+// Shadows
+$shadow-gold:   0 10px 40px rgba(255, 215, 0, 0.3);
+$shadow-gold-lg:0 20px 60px rgba(255, 215, 0, 0.4);
+$shadow-cyan:   0 10px 40px rgba(0, 245, 255, 0.3);
+$shadow-dark:   0 20px 60px rgba(0, 0, 0, 0.5);
+
+// Transitions
+$transition-fast:   all 0.2s ease;
+$transition-base:   all 0.3s ease;
+$transition-slow:   all 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+
+// Breakpoints
+$bp-sm:  576px;
+$bp-md:  768px;
+$bp-lg:  1024px;
+$bp-xl:  1280px;
+$bp-2xl: 1600px;
+
+// Z-index
+$z-base:    1;
+$z-dropdown: 100;
+$z-sticky:  200;
+$z-nav:     1000;
+$z-modal:   2000;
+$z-cursor:  10000;

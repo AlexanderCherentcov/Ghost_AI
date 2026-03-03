@@ -1,0 +1,133 @@
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: $z-nav;
+  padding: 0 5%;
+  height: 72px;
+  @include flex-between;
+  border-bottom: 1px solid $glass-border;
+  backdrop-filter: blur(30px) saturate(180%);
+  animation: fadeInDown 0.8s cubic-bezier(0.65, 0, 0.35, 1) both;
+
+  &.landing { background: rgba(10, 0, 20, 0.6); }
+  &.app     { background: rgba(10, 0, 20, 0.85); }
+}
+
+.inner {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  @include flex-between;
+}
+
+.logo {
+  font-family: $font-serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  text-decoration: none;
+  letter-spacing: 3px;
+  position: relative;
+  @include gradient-text($gold, $cyan, $pink);
+}
+
+.sparkle {
+  position: relative;
+  display: inline-block;
+  font-size: 1rem;
+  animation: sparkle 2s ease-in-out infinite;
+  -webkit-text-fill-color: $gold;
+}
+
+.links {
+  display: flex;
+  gap: 3rem;
+  list-style: none;
+
+  a {
+    color: $platinum;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    position: relative;
+    transition: color 0.3s;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, $gold, $cyan);
+      transition: width 0.4s, left 0.4s;
+    }
+
+    &:hover {
+      color: $gold;
+      &::after { width: 100%; left: 0; }
+    }
+  }
+
+  @include respond-to(md) { display: none; }
+}
+
+.appRight {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.credits {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  @include glass-card;
+  padding: 6px 14px;
+  border-radius: $radius-pill;
+}
+
+.creditsIcon { font-size: 1rem; }
+.creditsNum  { font-weight: 800; color: $gold; font-size: 1rem; }
+.creditsLabel{ font-size: 0.78rem; color: rgba($platinum, 0.6); }
+
+.planBadge {
+  background: linear-gradient(135deg, rgba($gold, 0.2), rgba($cyan, 0.2));
+  border: 1px solid rgba($gold, 0.3);
+  color: $gold;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border-radius: $radius-pill;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.username {
+  font-size: 0.9rem;
+  color: rgba($platinum, 0.8);
+}
+
+.logout {
+  background: none;
+  border: 1px solid rgba($pink, 0.3);
+  color: rgba($platinum, 0.5);
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: $radius-pill;
+  cursor: pointer;
+  transition: $transition-base;
+  font-family: $font-sans;
+
+  &:hover {
+    color: $pink;
+    border-color: $pink;
+  }
+}

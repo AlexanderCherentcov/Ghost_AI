@@ -1,0 +1,524 @@
+.page {
+  position: relative;
+  z-index: $z-base;
+}
+
+// ========================
+// Scroll Reveal
+// ========================
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+
+  &.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ========================
+// Hero
+// ========================
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 5% 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroPulse {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba($gold-dark, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: pulseRing 5s ease-in-out infinite;
+}
+
+.floatImgs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.floatImg {
+  position: absolute;
+  width: 180px; height: 180px;
+  @include glass-card;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-dark;
+  animation: floatY 10s ease-in-out infinite;
+
+  img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+
+  &1 { top: 12%; left: 4%;  animation-duration: 10s; animation-delay: 0s; }
+  &2 { top: 18%; right: 6%; animation-duration: 12s; animation-delay: 1s; }
+  &3 { bottom: 18%; left: 8%; animation-duration: 11s; animation-delay: 2s; }
+  &4 { bottom: 22%; right: 4%; animation-duration: 13s; animation-delay: 1.5s; }
+
+  @include respond-to(lg) { display: none; }
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+}
+
+.heroBadge {
+  display: inline-block;
+  @include glass-card;
+  padding: 10px 24px;
+  border-radius: $radius-pill;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: $gold;
+  letter-spacing: 3px;
+  margin-bottom: 28px;
+  animation: fadeInDown 0.8s ease 0.1s both;
+}
+
+.heroTitle {
+  font-family: $font-serif;
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-weight: 900;
+  line-height: 1.08;
+  margin-bottom: 24px;
+  @include gradient-text($platinum, $gold, $cyan);
+  animation: fadeInUp 0.8s ease 0.3s both;
+}
+
+.heroSub {
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  color: $platinum;
+  opacity: 0.85;
+  max-width: 760px;
+  margin: 0 auto 36px;
+  line-height: 1.8;
+  animation: fadeInUp 0.8s ease 0.5s both;
+}
+
+.heroBtns {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.8s ease 0.7s both;
+}
+
+.scrollIndicator {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.6;
+  transition: opacity 0.3s;
+
+  svg {
+    width: 28px; height: 48px;
+    stroke: $gold;
+    stroke-width: 2;
+    fill: none;
+  }
+}
+
+.scrollDot {
+  animation: scrollDot 2s ease-in-out infinite;
+}
+
+// ========================
+// Stats
+// ========================
+.stats {
+  padding: 80px 5%;
+  background: $glass;
+  border-top: 1px solid $glass-border;
+  border-bottom: 1px solid $glass-border;
+  backdrop-filter: blur(30px);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.statCard {
+  text-align: center;
+  padding: 36px 24px;
+  @include glass-card;
+  border-radius: $radius-xl;
+  @include gold-glow-hover;
+}
+
+.statIcon {
+  display: block;
+  font-size: 2.8rem;
+  margin-bottom: 16px;
+  animation: floatY 3s ease-in-out infinite;
+}
+
+.statNum {
+  font-family: $font-serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  @include gold-text;
+  margin-bottom: 8px;
+}
+
+.statLabel {
+  font-size: 1rem;
+  color: $platinum;
+  opacity: 0.75;
+}
+
+// ========================
+// Generic section
+// ========================
+.section {
+  padding: 120px 5%;
+  max-width: 100%;
+}
+
+// ========================
+// Gallery
+// ========================
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.galleryItem {
+  position: relative;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  @include glass-card;
+  cursor: pointer;
+  transition: $transition-slow;
+
+  &:hover {
+    transform: translateY(-14px) scale(1.02);
+    box-shadow: $shadow-gold-lg;
+    border-color: $gold;
+
+    .galleryImg { transform: scale(1.08); }
+    .galleryOverlay { transform: translateY(0); }
+  }
+}
+
+.galleryImg {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.galleryOverlay {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+  padding: 24px;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+
+.galleryCat {
+  font-size: 0.8rem;
+  color: $gold;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.galleryTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: $platinum;
+  margin-bottom: 4px;
+}
+
+.galleryModel {
+  font-size: 0.85rem;
+  color: rgba($platinum, 0.65);
+}
+
+// ========================
+// Features
+// ========================
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 28px;
+  max-width: 1600px;
+  margin: 0 auto;
+
+  @include respond-to(md) { grid-template-columns: 1fr; }
+}
+
+.featureCard {
+  @include glass-card;
+  border-radius: $radius-xl;
+  padding: 36px;
+  transition: $transition-slow;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -100%; left: -100%;
+    width: 300%; height: 300%;
+    background: radial-gradient(circle, $cyan-glow 0%, transparent 60%);
+    opacity: 0;
+    transition: all 0.8s;
+  }
+
+  &:hover {
+    transform: translateY(-12px) scale(1.01);
+    border-color: rgba($cyan, 0.5);
+    box-shadow: 0 30px 80px rgba($cyan, 0.25);
+
+    &::before { opacity: 1; top: -50%; left: -50%; }
+  }
+}
+
+.featureIcon {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: 20px;
+  animation: floatY 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 16px rgba($gold, 0.4));
+  position: relative;
+  z-index: 1;
+}
+
+.featureTitle {
+  font-family: $font-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: $gold;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.featureDesc {
+  font-size: 1rem;
+  color: $platinum;
+  opacity: 0.85;
+  line-height: 1.75;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.featureModels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+// ========================
+// Pricing
+// ========================
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+
+  @include respond-to(md) { grid-template-columns: 1fr; }
+}
+
+.priceCard {
+  @include glass-card;
+  border-radius: $radius-xl;
+  padding: 36px 28px;
+  text-align: center;
+  transition: $transition-slow;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-12px);
+    box-shadow: $shadow-gold;
+    border-color: rgba($gold, 0.5);
+  }
+
+  &.featured {
+    border-color: rgba($gold, 0.5);
+    box-shadow: 0 0 60px rgba($gold, 0.15);
+  }
+}
+
+.popularBadge {
+  position: absolute;
+  top: 16px; right: -28px;
+  background: linear-gradient(135deg, $gold, $gold-light);
+  color: $deep-purple;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 36px;
+  letter-spacing: 1.5px;
+  transform: rotate(45deg);
+}
+
+.planName {
+  font-family: $font-serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  @include gold-text;
+  margin-bottom: 8px;
+}
+
+.planPrice {
+  font-family: $font-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: $platinum;
+  margin-bottom: 4px;
+
+  span {
+    font-family: $font-sans;
+    font-size: 1.1rem;
+    opacity: 0.55;
+    font-weight: 400;
+  }
+}
+
+.planCredits {
+  color: $cyan;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.planFeatures {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 24px;
+
+  li {
+    padding: 8px 0;
+    border-bottom: 1px solid $glass-border;
+    color: $platinum;
+    opacity: 0.85;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    &::before { content: '✦'; color: $gold; flex-shrink: 0; font-size: 0.7rem; }
+  }
+}
+
+.planBtn { width: 100%; justify-content: center; }
+
+// ========================
+// Footer
+// ========================
+.footer {
+  @include glass-card;
+  border-radius: 0;
+  border-left: none; border-right: none; border-bottom: none;
+  backdrop-filter: blur(30px);
+  padding: 80px 5% 40px;
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto 48px;
+
+  @include respond-to(lg) { grid-template-columns: 1fr 1fr; }
+  @include respond-to(md) { grid-template-columns: 1fr; }
+}
+
+.footerBrand p {
+  color: rgba($platinum, 0.7);
+  line-height: 1.8;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.footerLogo {
+  font-family: $font-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  @include gradient-text($gold, $cyan, $gold);
+  margin-bottom: 16px;
+}
+
+.socials {
+  display: flex;
+  gap: 10px;
+}
+
+.socialLink {
+  width: 44px; height: 44px;
+  @include glass-card;
+  border-radius: 50%;
+  @include flex-center;
+  color: $gold;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: $transition-slow;
+
+  &:hover {
+    background: $gold;
+    color: $deep-purple;
+    transform: translateY(-4px) rotate(360deg);
+    box-shadow: $shadow-gold;
+  }
+}
+
+.footerCol {
+  h4 {
+    color: $gold;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  ul { list-style: none; }
+
+  li { margin-bottom: 10px; }
+
+  a {
+    color: rgba($platinum, 0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: $transition-base;
+
+    &:hover { color: $gold; padding-left: 6px; }
+  }
+}
+
+.footerBottom {
+  text-align: center;
+  padding-top: 28px;
+  border-top: 1px solid $glass-border;
+  color: rgba($platinum, 0.4);
+  font-size: 0.85rem;
+}

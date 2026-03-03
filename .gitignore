@@ -1,0 +1,89 @@
+# ========================
+# Python
+# ========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ========================
+# Environment files — NEVER commit these
+# ========================
+.env
+.env.*
+!.env.example
+infra/.env
+infra/.env.*
+!infra/.env.example
+backend/.env
+bot/.env
+*.local
+
+# ========================
+# Node / Frontend
+# ========================
+node_modules/
+.next/
+dist/
+build/
+*.tsbuildinfo
+.cache/
+.parcel-cache/
+.vite/
+
+# ========================
+# Windows path artifacts (brace expansion accidents)
+# ========================
+{backend/
+{bot/
+{miniapp/
+{web/
+
+# ========================
+# Docker / Infra
+# ========================
+infra/ssl/
+!infra/ssl/.gitkeep
+
+# ========================
+# Uploads / Media
+# ========================
+uploads/
+*.mp3
+*.mp4
+*.wav
+*.ogg
+
+# ========================
+# Logs
+# ========================
+*.log
+logs/
+*.log.*
+
+# ========================
+# OS / Editor
+# ========================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ========================
+# Secrets / Keys
+# ========================
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/

@@ -1,0 +1,87 @@
+.wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  animation: fadeInUp 0.3s ease both;
+
+  &.user   { flex-direction: row-reverse; }
+  &.ai     { flex-direction: row; }
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  @include flex-center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  @include glass-card;
+  border-color: rgba($gold, 0.2);
+
+  .user &  { background: linear-gradient(135deg, rgba($gold, 0.2), rgba($gold-light, 0.1)); }
+  .ai &    { background: linear-gradient(135deg, rgba($cyan, 0.15), rgba($deep-purple, 0.3)); }
+}
+
+.bubble {
+  max-width: min(600px, 75%);
+
+  .user & {
+    background: linear-gradient(135deg, $gold, $gold-light);
+    color: $deep-purple;
+    border-radius: $radius-lg $radius-lg 4px $radius-lg;
+    padding: 12px 18px;
+    font-weight: 500;
+  }
+
+  .ai & {
+    @include glass-card;
+    border-radius: $radius-lg $radius-lg $radius-lg 4px;
+    padding: 14px 18px;
+    border-color: rgba($cyan, 0.15);
+  }
+}
+
+.content {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  .user & { color: $deep-purple; }
+  .ai &   { color: $platinum; }
+}
+
+.cursor {
+  display: inline-block;
+  animation: typingBlink 0.8s ease-in-out infinite;
+  color: $gold;
+  font-weight: bold;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid $glass-border;
+}
+
+.action {
+  background: none;
+  border: none;
+  color: rgba($platinum, 0.4);
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-family: $font-sans;
+  transition: color 0.2s;
+  padding: 0;
+
+  &:hover { color: $cyan; }
+}
+
+.credits {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: rgba($gold, 0.6);
+}

@@ -1,0 +1,5 @@
+aiogram==3.14.0
+aioredis==2.0.1
+pydantic-settings==2.6.0
+httpx==0.28.0
+redis[hiredis]==5.2.0

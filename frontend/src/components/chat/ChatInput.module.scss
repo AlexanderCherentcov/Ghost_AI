@@ -1,0 +1,79 @@
+.wrap {
+  padding: 16px 20px 20px;
+  border-top: 1px solid $glass-border;
+  flex-shrink: 0;
+}
+
+.box {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  @include glass-card;
+  border-radius: $radius-lg;
+  padding: 12px 14px;
+  border-color: rgba($gold, 0.15);
+  transition: border-color 0.3s;
+
+  &:focus-within {
+    border-color: rgba($gold, 0.4);
+    box-shadow: 0 0 0 1px rgba($gold, 0.15);
+  }
+}
+
+.textarea {
+  flex: 1;
+  background: none;
+  border: none;
+  color: $platinum;
+  font-family: $font-sans;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  resize: none;
+  outline: none;
+  max-height: 200px;
+  overflow-y: auto;
+  @include custom-scrollbar;
+
+  &::placeholder { color: rgba($platinum, 0.35); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+.send {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  @include flex-center;
+  background: linear-gradient(135deg, $gold, $gold-light);
+  border: none;
+  border-radius: $radius-md;
+  color: $deep-purple;
+  cursor: pointer;
+  transition: $transition-base;
+
+  &:hover:not(.sendDisabled) {
+    transform: scale(1.08);
+    box-shadow: 0 4px 20px rgba($gold, 0.5);
+  }
+
+  &.sendDisabled {
+    background: $glass;
+    color: rgba($platinum, 0.3);
+    cursor: not-allowed;
+  }
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba($deep-purple, 0.3);
+  border-top-color: $deep-purple;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.hint {
+  text-align: center;
+  font-size: 0.72rem;
+  color: rgba($platinum, 0.25);
+  margin-top: 8px;
+}

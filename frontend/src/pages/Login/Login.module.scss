@@ -1,0 +1,152 @@
+.page {
+  min-height: 100vh;
+  @include flex-center;
+  padding: 24px;
+  position: relative;
+  z-index: $z-base;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  @include glass-card;
+  border-radius: $radius-xl;
+  padding: 48px 40px;
+  border-color: rgba($gold, 0.15);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba($gold, 0.05);
+  animation: scaleIn 0.4s ease both;
+}
+
+.logo {
+  display: block;
+  text-align: center;
+  font-family: $font-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  text-decoration: none;
+  letter-spacing: 3px;
+  @include gradient-text($gold, $cyan, $pink);
+  margin-bottom: 28px;
+
+  span {
+    animation: sparkle 2s ease-in-out infinite;
+    -webkit-text-fill-color: $gold;
+  }
+}
+
+.title {
+  font-family: $font-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  @include gold-text;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.sub {
+  text-align: center;
+  color: rgba($platinum, 0.55);
+  font-size: 0.9rem;
+  margin-bottom: 32px;
+}
+
+.methods {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.methodLabel {
+  font-size: 0.82rem;
+  color: rgba($platinum, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.tgWrap {
+  @include glass-card;
+  border-radius: $radius-lg;
+  padding: 16px;
+}
+
+.tgWidget {
+  @include flex-center;
+  min-height: 48px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba($platinum, 0.25);
+  font-size: 0.82rem;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: $glass-border;
+  }
+}
+
+.oauthBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  @include glass-card;
+  border-radius: $radius-lg;
+  color: $platinum;
+  font-family: $font-sans;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-base;
+
+  &:hover {
+    background: $glass-hover;
+    border-color: rgba($gold, 0.3);
+    transform: translateY(-2px);
+  }
+
+  &.yandex:hover {
+    border-color: rgba($cyan, 0.3);
+  }
+}
+
+.oauthIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  @include flex-center;
+  font-size: 0.9rem;
+  font-weight: 800;
+  flex-shrink: 0;
+
+  .oauthBtn:not(.yandex) & {
+    background: #fff;
+    color: #333;
+  }
+
+  .yandex & {
+    background: #fc3f1d;
+    color: #fff;
+  }
+}
+
+.terms {
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba($platinum, 0.3);
+  margin-top: 24px;
+  line-height: 1.6;
+
+  a {
+    color: rgba($gold, 0.7);
+    text-decoration: none;
+    &:hover { color: $gold; }
+  }
+}
