@@ -70,6 +70,11 @@ logs/
 *.log.*
 
 # ========================
+# Claude Code (local AI assistant config)
+# ========================
+.claude/
+
+# ========================
 # OS / Editor
 # ========================
 .DS_Store
