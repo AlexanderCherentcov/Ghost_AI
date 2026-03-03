@@ -42,10 +42,10 @@ build/
 # ========================
 # Windows path artifacts (brace expansion accidents)
 # ========================
-{backend/
-{bot/
-{miniapp/
-{web/
+[{]backend/
+[{]bot/
+[{]miniapp/
+[{]web/
 
 # ========================
 # Docker / Infra
