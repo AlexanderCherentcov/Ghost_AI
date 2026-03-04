@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings
+from pydantic import field_validator
 from typing import List
-import os
+import json
 
 
 class Settings(BaseSettings):
@@ -68,11 +69,23 @@ class Settings(BaseSettings):
     # Admin
     ADMIN_SECRET_KEY: str = "admin-secret-key"
 
-    # CORS
+    # CORS — accepts comma-separated string OR JSON array
     CORS_ORIGINS: List[str] = ["https://ghostai.ru", "http://localhost:3000", "http://localhost:5173"]
 
     # Free credits for new users
     FREE_CREDITS: int = 15
+
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
+    def parse_cors(cls, v):
+        if isinstance(v, list):
+            return v
+        if isinstance(v, str):
+            v = v.strip()
+            if v.startswith("["):
+                return json.loads(v)
+            return [origin.strip() for origin in v.split(",") if origin.strip()]
+        return v
 
     class Config:
         env_file = ".env"
