@@ -6,6 +6,49 @@
   z-index: $z-base;
 }
 
+// Mobile overlay backdrop
+.overlay {
+  display: none;
+
+  @include respond-to(lg) {
+    display: block;
+    position: fixed;
+    inset: 72px 0 0 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1400;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+}
+
+// Mobile menu / hamburger button (hidden on desktop)
+.menuBtn {
+  display: none;
+
+  @include respond-to(lg) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    background: $glass;
+    border: 1px solid $glass-border;
+    border-radius: $radius-md;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: $platinum;
+    font-family: $font-sans;
+    transition: $transition-base;
+    white-space: nowrap;
+
+    &:hover {
+      background: $glass-hover;
+      border-color: rgba($gold, 0.4);
+      color: $gold;
+    }
+  }
+}
+
 .main {
   flex: 1;
   display: flex;
@@ -33,6 +76,8 @@
   font-family: $font-serif;
   font-size: 2rem;
   @include gold-text;
+
+  @include respond-to(sm) { font-size: 1.5rem; }
 }
 
 .emptySub {
@@ -45,7 +90,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 16px 20px;
+  padding: 12px 16px;
   border-bottom: 1px solid $glass-border;
   flex-shrink: 0;
   @include glass-card;
@@ -53,17 +98,32 @@
   border-left: none;
   border-right: none;
   border-top: none;
+
+  @include respond-to(sm) {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+}
+
+.chatInfo {
+  flex: 1;
+  min-width: 0;
 }
 
 .chatIcon {
   font-size: 1.8rem;
   flex-shrink: 0;
+
+  @include respond-to(sm) { font-size: 1.4rem; }
 }
 
 .chatTitle {
   font-weight: 700;
   font-size: 1rem;
   color: $platinum;
+  @include truncate(1);
+
+  @include respond-to(sm) { font-size: 0.9rem; }
 }
 
 .chatDesc {
@@ -71,6 +131,8 @@
   color: rgba($platinum, 0.5);
   @include truncate(1);
   max-width: 400px;
+
+  @include respond-to(sm) { display: none; }
 }
 
 .clearBtn {
@@ -82,6 +144,7 @@
   cursor: pointer;
   transition: $transition-base;
   font-size: 1rem;
+  flex-shrink: 0;
 
   &:hover {
     background: rgba($pink, 0.1);
@@ -97,6 +160,11 @@
   flex-direction: column;
   gap: 16px;
   @include custom-scrollbar;
+
+  @include respond-to(sm) {
+    padding: 16px 12px;
+    gap: 12px;
+  }
 }
 
 .loadingHistory {

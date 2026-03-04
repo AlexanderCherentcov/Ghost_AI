@@ -21,6 +21,7 @@ export default function Dashboard() {
   const [messages, setMessages] = useState<Message[]>([])
   const [streaming, setStreaming] = useState(false)
   const [loadingHistory, setLoadingHistory] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const bottomRef = useRef<HTMLDivElement>(null)
 
@@ -114,11 +115,25 @@ export default function Dashboard() {
 
   return (
     <div className={styles.layout}>
-      <Sidebar modes={modes} activeMode={activeMode?.id ?? null} onSelect={selectMode} />
+      <Sidebar
+        modes={modes}
+        activeMode={activeMode?.id ?? null}
+        onSelect={selectMode}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
+
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div className={styles.overlay} onClick={() => setSidebarOpen(false)} />
+      )}
 
       <div className={styles.main}>
         {!activeMode ? (
           <div className={styles.empty}>
+            <button className={styles.menuBtn} onClick={() => setSidebarOpen(true)}>
+              ☰ Режимы
+            </button>
             <div className={styles.emptyGhost}>👻</div>
             <h2 className={styles.emptyTitle}>Выберите режим</h2>
             <p className={styles.emptySub}>
@@ -130,8 +145,11 @@ export default function Dashboard() {
         ) : (
           <>
             <div className={styles.chatHeader}>
+              <button className={styles.menuBtn} onClick={() => setSidebarOpen(true)}>
+                ☰
+              </button>
               <span className={styles.chatIcon}>{activeMode.icon_emoji}</span>
-              <div>
+              <div className={styles.chatInfo}>
                 <div className={styles.chatTitle}>{activeMode.title}</div>
                 <div className={styles.chatDesc}>{activeMode.description}</div>
               </div>

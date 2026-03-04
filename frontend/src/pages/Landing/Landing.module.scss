@@ -29,6 +29,9 @@
   padding: 100px 5% 60px;
   position: relative;
   overflow: hidden;
+
+  @include respond-to(md) { padding: 90px 5% 50px; }
+  @include respond-to(sm) { padding: 80px 4% 40px; }
 }
 
 .heroPulse {
@@ -70,6 +73,7 @@
   position: relative;
   z-index: 2;
   max-width: 1100px;
+  width: 100%;
 }
 
 .heroBadge {
@@ -83,26 +87,47 @@
   letter-spacing: 3px;
   margin-bottom: 28px;
   animation: fadeInDown 0.8s ease 0.1s both;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @include respond-to(sm) {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    padding: 8px 16px;
+  }
 }
 
 .heroTitle {
   font-family: $font-serif;
-  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-size: clamp(2.4rem, 10vw, 8rem);
   font-weight: 900;
   line-height: 1.08;
   margin-bottom: 24px;
+  word-break: break-word;
   @include gradient-text($platinum, $gold, $cyan);
   animation: fadeInUp 0.8s ease 0.3s both;
+
+  @include respond-to(sm) {
+    font-size: clamp(2rem, 13vw, 3.5rem);
+    line-height: 1.12;
+  }
 }
 
 .heroSub {
-  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-size: clamp(0.9rem, 2vw, 1.4rem);
   color: $platinum;
   opacity: 0.85;
   max-width: 760px;
   margin: 0 auto 36px;
   line-height: 1.8;
   animation: fadeInUp 0.8s ease 0.5s both;
+
+  @include respond-to(sm) {
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+  }
 }
 
 .heroBtns {
@@ -142,6 +167,8 @@
   border-top: 1px solid $glass-border;
   border-bottom: 1px solid $glass-border;
   backdrop-filter: blur(30px);
+
+  @include respond-to(sm) { padding: 48px 4%; }
 }
 
 .statsGrid {
@@ -187,6 +214,9 @@
 .section {
   padding: 120px 5%;
   max-width: 100%;
+
+  @include respond-to(md) { padding: 70px 5%; }
+  @include respond-to(sm) { padding: 50px 4%; }
 }
 
 // ========================
@@ -441,6 +471,8 @@
   border-left: none; border-right: none; border-bottom: none;
   backdrop-filter: blur(30px);
   padding: 80px 5% 40px;
+
+  @include respond-to(sm) { padding: 48px 4% 32px; }
 }
 
 .footerGrid {

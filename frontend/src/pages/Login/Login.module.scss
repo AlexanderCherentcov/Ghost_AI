@@ -15,6 +15,11 @@
   border-color: rgba($gold, 0.15);
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba($gold, 0.05);
   animation: scaleIn 0.4s ease both;
+
+  @include respond-to(sm) {
+    padding: 32px 20px;
+    border-radius: $radius-lg;
+  }
 }
 
 .logo {

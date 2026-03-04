@@ -6,8 +6,28 @@
   border-right: 1px solid $glass-border;
   height: 100%;
   overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-  @include respond-to(lg) { display: none; }
+  @include respond-to(lg) {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    height: calc(100vh - 72px);
+    z-index: 1500;
+    transform: translateX(-100%);
+    background: rgba(10, 0, 20, 0.97);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-right: 1px solid rgba(255, 215, 0, 0.2);
+    box-shadow: 4px 0 32px rgba(0, 0, 0, 0.5);
+    width: min(280px, 85vw);
+  }
+}
+
+.sidebarOpen {
+  @include respond-to(lg) {
+    transform: translateX(0) !important;
+  }
 }
 
 .search {

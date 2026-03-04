@@ -12,6 +12,8 @@
 
   &.landing { background: rgba(10, 0, 20, 0.6); }
   &.app     { background: rgba(10, 0, 20, 0.85); }
+
+  @include respond-to(sm) { padding: 0 16px; }
 }
 
 .inner {
@@ -19,6 +21,7 @@
   max-width: 1600px;
   margin: 0 auto;
   @include flex-between;
+  gap: 12px;
 }
 
 .logo {
@@ -28,7 +31,13 @@
   text-decoration: none;
   letter-spacing: 3px;
   position: relative;
+  white-space: nowrap;
   @include gradient-text($gold, $cyan, $pink);
+
+  @include respond-to(sm) {
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+  }
 }
 
 .sparkle {
@@ -76,7 +85,9 @@
 .appRight {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
+
+  @include respond-to(sm) { gap: 8px; }
 }
 
 .credits {
@@ -86,11 +97,21 @@
   @include glass-card;
   padding: 6px 14px;
   border-radius: $radius-pill;
+
+  @include respond-to(sm) {
+    padding: 5px 10px;
+    gap: 4px;
+  }
 }
 
 .creditsIcon { font-size: 1rem; }
 .creditsNum  { font-weight: 800; color: $gold; font-size: 1rem; }
-.creditsLabel{ font-size: 0.78rem; color: rgba($platinum, 0.6); }
+
+.creditsLabel {
+  font-size: 0.78rem;
+  color: rgba($platinum, 0.6);
+  @include respond-to(md) { display: none; }
+}
 
 .planBadge {
   background: linear-gradient(135deg, rgba($gold, 0.2), rgba($cyan, 0.2));
@@ -102,17 +123,21 @@
   letter-spacing: 1px;
   padding: 2px 8px;
   border-radius: $radius-pill;
+  @include respond-to(md) { display: none; }
 }
 
 .user {
   display: flex;
   align-items: center;
   gap: 12px;
+
+  @include respond-to(sm) { gap: 8px; }
 }
 
 .username {
   font-size: 0.9rem;
   color: rgba($platinum, 0.8);
+  @include respond-to(md) { display: none; }
 }
 
 .logout {
@@ -125,9 +150,15 @@
   cursor: pointer;
   transition: $transition-base;
   font-family: $font-sans;
+  white-space: nowrap;
 
   &:hover {
     color: $pink;
     border-color: $pink;
+  }
+
+  @include respond-to(sm) {
+    padding: 4px 10px;
+    font-size: 0.75rem;
   }
 }

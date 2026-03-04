@@ -19,9 +19,11 @@ interface Props {
   modes: Mode[]
   activeMode: string | null
   onSelect: (modeId: string) => void
+  isOpen?: boolean
+  onClose?: () => void
 }
 
-export default function Sidebar({ modes, activeMode, onSelect }: Props) {
+export default function Sidebar({ modes, activeMode, onSelect, isOpen, onClose }: Props) {
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
 
@@ -34,7 +36,7 @@ export default function Sidebar({ modes, activeMode, onSelect }: Props) {
   const categories = [...new Set(modes.map((m) => m.category))]
 
   return (
-    <aside className={styles.sidebar}>
+    <aside className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ''}`}>
       <div className={styles.search}>
         <span className={styles.searchIcon}>🔍</span>
         <input
@@ -68,7 +70,7 @@ export default function Sidebar({ modes, activeMode, onSelect }: Props) {
           <button
             key={mode.id}
             className={`${styles.item} ${activeMode === mode.id ? styles.active : ''} ${mode.is_locked ? styles.locked : ''}`}
-            onClick={() => !mode.is_locked && onSelect(mode.id)}
+            onClick={() => { if (!mode.is_locked) { onSelect(mode.id); onClose?.() } }}
             title={mode.is_locked ? `Требуется план ${mode.min_plan}` : mode.description}
           >
             <span className={styles.itemIcon}>{mode.icon_emoji || '🤖'}</span>
