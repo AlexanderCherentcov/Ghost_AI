@@ -1,0 +1,59 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  max-width: 82%;
+  animation: fadeInUp 0.25s ease;
+
+  &.user {
+    align-self: flex-end;
+    align-items: flex-end;
+  }
+
+  &.assistant {
+    align-self: flex-start;
+    align-items: flex-start;
+  }
+}
+
+.bubble {
+  padding: $space-3 $space-4;
+  border-radius: $radius-md;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  position: relative;
+
+  .user & {
+    background: linear-gradient(135deg, rgba($gold, 0.25), rgba($gold, 0.12));
+    border: 1px solid rgba($gold, 0.3);
+    border-bottom-right-radius: $space-1;
+    color: $platinum;
+  }
+
+  .assistant & {
+    @include glass-card;
+    border-bottom-left-radius: $space-1;
+    color: $platinum;
+  }
+}
+
+.text {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: $gold;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: typingBlink 0.8s ease-in-out infinite;
+}
+
+.cost {
+  font-size: 0.72rem;
+  color: rgba($platinum, 0.35);
+  margin-top: $space-1;
+  padding: 0 $space-2;
+}

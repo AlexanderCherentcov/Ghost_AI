@@ -1,0 +1,100 @@
+// ========================
+// Ghost AI Mixins
+// ========================
+@use 'variables' as *;
+
+// Responsive
+@mixin respond-to($bp) {
+  @if      $bp == sm  { @media (max-width: #{$bp-sm})  { @content; } }
+  @else if $bp == md  { @media (max-width: #{$bp-md})  { @content; } }
+  @else if $bp == lg  { @media (max-width: #{$bp-lg})  { @content; } }
+  @else if $bp == xl  { @media (max-width: #{$bp-xl})  { @content; } }
+  @else if $bp == 2xl { @media (max-width: #{$bp-2xl}) { @content; } }
+}
+
+// Glass card
+@mixin glass-card($border-color: $glass-border) {
+  background: $glass;
+  border: 1px solid $border-color;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+// Gold gradient text
+@mixin gold-text {
+  background: linear-gradient(135deg, $gold, $gold-light);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Cyan gradient text
+@mixin cyan-text {
+  background: linear-gradient(135deg, $cyan, $platinum);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Multi gradient text
+@mixin gradient-text($from: $platinum, $mid: $gold, $to: $cyan) {
+  background: linear-gradient(135deg, $from, $mid, $to);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 8s ease infinite;
+}
+
+// Flex helpers
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Thin mobile scrollbar
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar { width: 3px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: $radius-pill;
+  }
+}
+
+// Truncate text
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// Shine overlay on hover
+@mixin shine-overlay {
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    transition: left 0.5s;
+    z-index: 1;
+  }
+  &:active::before { left: 100%; }
+}

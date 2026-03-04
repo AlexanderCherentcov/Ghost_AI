@@ -5,6 +5,7 @@ interface User {
   username?: string
   avatar_url?: string
   plan_id: string
+  balance?: number
 }
 
 interface AuthState {

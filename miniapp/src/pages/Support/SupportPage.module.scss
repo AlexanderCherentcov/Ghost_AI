@@ -1,0 +1,128 @@
+.page {
+  height: 100%;
+  overflow-y: auto;
+  @include custom-scrollbar;
+  padding: $space-6 $space-4 calc($space-8 + 70px);
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+}
+
+.header {
+  text-align: center;
+}
+
+.logoWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-3;
+  margin-bottom: $space-2;
+}
+
+.logoEmoji {
+  font-size: 2rem;
+}
+
+.title {
+  font-family: $font-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  @include gold-text;
+}
+
+.sub {
+  font-size: 0.85rem;
+  color: rgba($platinum, 0.4);
+}
+
+// Telegram button
+.tgBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-3;
+  width: 100%;
+  padding: $space-4;
+  border-radius: $radius-pill;
+  background: linear-gradient(135deg, #229ED9, #1a7aa8);
+  border: none;
+  color: #fff;
+  font-family: $font-sans;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-fast;
+  box-shadow: 0 8px 30px rgba(34, 158, 217, 0.3);
+
+  &:active { transform: scale(0.97); opacity: 0.9; }
+}
+
+// FAQ
+.faqSection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.faqTitle {
+  font-family: $font-serif;
+  font-size: 1.1rem;
+  color: rgba($platinum, 0.7);
+  margin-bottom: $space-1;
+}
+
+.faqItem {
+  @include glass-card;
+  border-radius: $radius-md;
+  overflow: hidden;
+  transition: border-color 0.2s;
+
+  &.faqOpen {
+    border-color: rgba($gold, 0.25);
+  }
+}
+
+.faqQ {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-4;
+  background: none;
+  border: none;
+  color: $platinum;
+  font-family: $font-sans;
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.faqArrow {
+  color: $gold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.faqA {
+  padding: 0 $space-4 $space-4;
+  font-size: 0.83rem;
+  color: rgba($platinum, 0.6);
+  line-height: 1.6;
+  animation: fadeInUp 0.2s ease;
+}
+
+// Footer
+.footer {
+  margin-top: auto;
+  text-align: center;
+}
+
+.footerText {
+  font-size: 0.72rem;
+  color: rgba($platinum, 0.2);
+}

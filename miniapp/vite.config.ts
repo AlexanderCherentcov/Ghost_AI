@@ -4,6 +4,17 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: '/app/',
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler' as const,
+        additionalData: `
+          @use "/src/assets/scss/variables" as *;
+          @use "/src/assets/scss/mixins" as *;
+        `,
+      },
+    },
+  },
   server: {
     proxy: {
       '/api': {

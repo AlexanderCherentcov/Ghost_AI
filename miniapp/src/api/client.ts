@@ -92,6 +92,38 @@ export const chatApi = {
   history: (modeId?: string, page = 1) =>
     api.get('/api/chat/history', { params: { mode_id: modeId, page } }),
   clearHistory: (modeId: string) => api.delete(`/api/chat/history/${modeId}`),
+
+  stream: async (
+    payload: { message: string; mode_id: string; conversation_id: string },
+    onChunk: (chunk: string) => void
+  ) => {
+    const token = useAuthStore.getState().token
+    const response = await fetch(`${API_BASE}/api/chat/send`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token ? `Bearer ${token}` : '',
+        'X-Source': 'miniapp',
+      },
+      body: JSON.stringify(payload),
+    })
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({ detail: 'Error' }))
+      throw { response: { data: err } }
+    }
+    const reader = response.body!.getReader()
+    const decoder = new TextDecoder()
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      const text = decoder.decode(value)
+      for (const line of text.split('\n')) {
+        if (line.startsWith('data: ')) {
+          onChunk(line.slice(6).trim())
+        }
+      }
+    }
+  },
 }
 
 export const imageApi = {

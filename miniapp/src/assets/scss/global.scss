@@ -1,0 +1,171 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ─── Reset ────────────────────────────────────────────────────────────────────
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: $font-sans;
+  background: $bg-dark;
+  color: $platinum;
+  font-size: 16px;
+  line-height: 1.6;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+// ─── Animated gradient background ─────────────────────────────────────────────
+#root {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%,  rgba(45, 27, 105, 0.7) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%,  rgba(26, 0, 51, 0.8) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(0, 0, 0, 0.5) 0%, transparent 70%),
+      $bg-dark;
+    animation: bgPulse 12s ease-in-out infinite;
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+// ─── Keyframes ────────────────────────────────────────────────────────────────
+@keyframes bgPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.85; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+  50%       { box-shadow: 0 0 40px rgba(255, 215, 0, 0.6), 0 0 80px rgba(255, 215, 0, 0.2); }
+}
+
+@keyframes glowText {
+  0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+  50%       { text-shadow: 0 0 40px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.4); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes typingBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulseRing {
+  0%   { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2);   opacity: 0; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes drawPath {
+  from { stroke-dashoffset: 100; }
+  to   { stroke-dashoffset: 0; }
+}
+
+// ─── Scrollbar ────────────────────────────────────────────────────────────────
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.2);
+  border-radius: $radius-pill;
+}
+
+// ─── Typography utils ─────────────────────────────────────────────────────────
+.gold-text {
+  @include gold-text;
+}
+
+.serif {
+  font-family: $font-serif;
+}
+
+// ─── Button base ──────────────────────────────────────────────────────────────
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  padding: $space-3 $space-6;
+  border: none;
+  border-radius: $radius-pill;
+  font-family: $font-sans;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-base;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+
+  &--gold {
+    background: linear-gradient(135deg, $gold, $gold-light);
+    color: $deep-purple;
+    &:active { transform: scale(0.97); }
+  }
+
+  &--ghost {
+    @include glass-card;
+    color: $platinum;
+    &:active { background: $glass-hover; }
+  }
+
+  &--outline {
+    background: transparent;
+    border: 1px solid rgba($gold, 0.4);
+    color: $gold;
+    &:active { background: rgba($gold, 0.1); }
+  }
+}

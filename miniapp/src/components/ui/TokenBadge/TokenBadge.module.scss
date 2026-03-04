@@ -1,0 +1,25 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: $radius-pill;
+  background: rgba($gold, 0.1);
+  border: 1px solid rgba($gold, 0.25);
+  backdrop-filter: blur(10px);
+  cursor: default;
+  transition: $transition-base;
+
+  &:hover {
+    background: rgba($gold, 0.15);
+    border-color: rgba($gold, 0.4);
+  }
+}
+
+.value {
+  font-family: $font-sans;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $gold;
+  line-height: 1;
+}
