@@ -1,24 +1,29 @@
 import { useEffect, useRef } from 'react'
 
 export default function Cursor() {
+  const dotRef  = useRef<HTMLDivElement>(null)
+  const ringRef = useRef<HTMLDivElement>(null)
   const cursorRef = useRef<HTMLDivElement>(null)
-  const followerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const cursor = cursorRef.current!
-    const follower = followerRef.current!
-    let fx = 0, fy = 0, mx = 0, my = 0
+    const dot    = dotRef.current!
+    const ring   = ringRef.current!
+
+    let mx = 0, my = 0, fx = 0, fy = 0
+    let rafId = 0
 
     const onMove = (e: MouseEvent) => {
-      mx = e.clientX; my = e.clientY
-      cursor.style.transform = `translate(${mx}px, ${my}px)`
+      mx = e.clientX
+      my = e.clientY
+      cursor.style.transform = `translate(${mx}px,${my}px)`
     }
 
     const animate = () => {
-      fx += (mx - fx) * 0.12
-      fy += (my - fy) * 0.12
-      follower.style.transform = `translate(${fx}px, ${fy}px)`
-      requestAnimationFrame(animate)
+      fx += (mx - fx) * 0.10
+      fy += (my - fy) * 0.10
+      ring.style.transform = `translate(${fx}px,${fy}px) translate(-50%,-50%)`
+      rafId = requestAnimationFrame(animate)
     }
 
     const onEnter = () => cursor.classList.add('cursor--hover')
@@ -30,17 +35,36 @@ export default function Cursor() {
       el.addEventListener('mouseleave', onLeave)
     })
 
-    const raf = requestAnimationFrame(animate)
+    rafId = requestAnimationFrame(animate)
     return () => {
       document.removeEventListener('mousemove', onMove)
-      cancelAnimationFrame(raf)
+      cancelAnimationFrame(rafId)
     }
   }, [])
 
   return (
     <>
-      <div ref={cursorRef} className="cursor" />
-      <div ref={followerRef} className="cursor-follower" />
+      {/* Dot — moves instantly with mouse */}
+      <div ref={cursorRef} className="cursor" style={{ position: 'fixed', pointerEvents: 'none', zIndex: 99999, mixBlendMode: 'difference' }}>
+        <div ref={dotRef} className="dot" style={{
+          width: 8, height: 8,
+          background: '#fff',
+          borderRadius: '50%',
+          position: 'absolute',
+          transform: 'translate(-50%,-50%)',
+        }} />
+      </div>
+      {/* Ring — follows with lag */}
+      <div ref={ringRef} className="ring" style={{
+        width: 36, height: 36,
+        border: '1px solid rgba(167,139,250,.6)',
+        borderRadius: '50%',
+        position: 'fixed',
+        pointerEvents: 'none',
+        zIndex: 99998,
+        top: 0, left: 0,
+        transition: 'width .3s, height .3s',
+      }} />
     </>
   )
 }

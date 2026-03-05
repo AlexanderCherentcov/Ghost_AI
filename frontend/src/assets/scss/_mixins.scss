@@ -1,5 +1,5 @@
 // ========================
-// Ghost AI Mixins
+// Ghost AI Mixins — v5
 // ========================
 @use 'variables' as *;
 
@@ -20,25 +20,29 @@
   -webkit-backdrop-filter: blur(20px);
 }
 
-// Gold gradient text
-@mixin gold-text {
-  background: linear-gradient(135deg, $gold, $gold-light);
+// Purple gradient text (primary heading)
+@mixin pu-text {
+  background: linear-gradient(130deg, #fff 0%, #C4B5FD 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 // Cyan gradient text
-@mixin cyan-text {
-  background: linear-gradient(135deg, $cyan, $platinum);
+@mixin cy-text {
+  background: linear-gradient(130deg, $cy, #fff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+// Legacy aliases
+@mixin gold-text { @include pu-text; }
+@mixin cyan-text { @include cy-text; }
+
 // Multi gradient text
-@mixin gradient-text($from: $platinum, $mid: $gold, $to: $cyan) {
-  background: linear-gradient(135deg, $from, $mid, $to);
+@mixin gradient-text($from: #fff, $mid: #C4B5FD, $to: $cy) {
+  background: linear-gradient(130deg, $from, $mid, $to);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -50,33 +54,24 @@
 @mixin gold-glow-hover {
   transition: $transition-slow;
   &:hover {
-    box-shadow: $shadow-gold-lg;
-    border-color: $gold;
+    box-shadow: $shadow-pu-lg;
+    border-color: $pu;
     transform: translateY(-8px);
   }
 }
 
 // Flex helpers
-@mixin flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@mixin flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+@mixin flex-center  { display: flex; align-items: center; justify-content: center; }
+@mixin flex-between { display: flex; align-items: center; justify-content: space-between; }
 
 // Scrollbar custom
 @mixin custom-scrollbar {
-  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar { width: 4px; }
   &::-webkit-scrollbar-track { background: transparent; }
   &::-webkit-scrollbar-thumb {
-    background: rgba(255, 215, 0, 0.2);
+    background: rgba($pu, .3);
     border-radius: $radius-pill;
-    &:hover { background: rgba(255, 215, 0, 0.4); }
+    &:hover { background: rgba($pu, .5); }
   }
 }
 
@@ -89,8 +84,8 @@
     position: absolute;
     top: 0; left: -100%;
     width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.6s;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+    transition: left .6s;
     z-index: 1;
   }
   &:hover::before { left: 100%; }

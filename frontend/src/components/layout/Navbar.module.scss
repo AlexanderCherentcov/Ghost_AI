@@ -1,91 +1,104 @@
+@use '@/assets/scss/variables' as *;
+@use '@/assets/scss/mixins' as *;
+
 .nav {
   position: fixed;
   top: 0;
   width: 100%;
   z-index: $z-nav;
-  padding: 0 5%;
-  height: 72px;
-  @include flex-between;
-  border-bottom: 1px solid $glass-border;
-  backdrop-filter: blur(30px) saturate(180%);
-  animation: fadeInDown 0.8s cubic-bezier(0.65, 0, 0.35, 1) both;
+  padding: 1rem 5%;
+  background: rgba(3,0,8,.55);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border-bottom: 1px solid $ln;
+  transform: translateY(-100%);
+  transition: transform .7s cubic-bezier(.22,1,.36,1);
 
-  &.landing { background: rgba(10, 0, 20, 0.6); }
-  &.app     { background: rgba(10, 0, 20, 0.85); }
+  &.visible { transform: translateY(0); }
+  &.landing { background: rgba(3,0,8,.55); }
+  &.app     { background: rgba(3,0,8,.85); transform: translateY(0); }
 
-  @include respond-to(sm) { padding: 0 16px; }
+  @include respond-to(sm) { padding: 1rem 16px; }
 }
 
 .inner {
-  width: 100%;
-  max-width: 1600px;
+  max-width: 1340px;
   margin: 0 auto;
-  @include flex-between;
-  gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
 .logo {
   font-family: $font-serif;
-  font-size: 1.8rem;
+  font-size: 1.45rem;
   font-weight: 900;
   text-decoration: none;
-  letter-spacing: 3px;
-  position: relative;
-  white-space: nowrap;
-  @include gradient-text($gold, $cyan, $pink);
-
-  @include respond-to(sm) {
-    font-size: 1.3rem;
-    letter-spacing: 2px;
-  }
+  letter-spacing: -.01em;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #fff, #C4B5FD, $cy);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  animation: logoFloat 4s ease-in-out infinite;
 }
 
-.sparkle {
-  position: relative;
-  display: inline-block;
-  font-size: 1rem;
-  animation: sparkle 2s ease-in-out infinite;
-  -webkit-text-fill-color: $gold;
+.logoG { display: inline-block; }
+
+@keyframes logoFloat {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba($pu,.3)); }
+  50%       { filter: drop-shadow(0 0 20px rgba($cy,.3)); }
 }
 
+// Landing nav links
 .links {
   display: flex;
-  gap: 3rem;
+  gap: 1.8rem;
   list-style: none;
+  margin-left: auto;
 
   a {
-    color: $platinum;
+    color: $dim;
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    letter-spacing: 0.5px;
+    font-size: .85rem;
+    font-weight: 500;
+    transition: color .25s;
     position: relative;
-    transition: color 0.3s;
 
     &::after {
       content: '';
       position: absolute;
-      bottom: -6px;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, $gold, $cyan);
-      transition: width 0.4s, left 0.4s;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: $cy;
+      transition: width .3s;
     }
 
     &:hover {
-      color: $gold;
-      &::after { width: 100%; left: 0; }
+      color: #fff;
+      &::after { width: 100%; }
     }
   }
 
   @include respond-to(md) { display: none; }
 }
 
+// Nav action buttons
+.navActs {
+  display: flex;
+  gap: .6rem;
+  margin-left: 1.5rem;
+}
+
+// App right (authenticated)
 .appRight {
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-left: auto;
 
   @include respond-to(sm) { gap: 8px; }
 }
@@ -94,33 +107,30 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  @include glass-card;
+  background: rgba($pu, .08);
+  border: 1px solid rgba($pu2, .2);
   padding: 6px 14px;
   border-radius: $radius-pill;
 
-  @include respond-to(sm) {
-    padding: 5px 10px;
-    gap: 4px;
-  }
+  @include respond-to(sm) { padding: 5px 10px; }
 }
 
-.creditsIcon { font-size: 1rem; }
-.creditsNum  { font-weight: 800; color: $gold; font-size: 1rem; }
-
+.creditsIcon  { font-size: 1rem; }
+.creditsNum   { font-weight: 800; color: $cy; font-size: 1rem; }
 .creditsLabel {
-  font-size: 0.78rem;
-  color: rgba($platinum, 0.6);
+  font-size: .78rem;
+  color: $dim;
   @include respond-to(md) { display: none; }
 }
 
 .planBadge {
-  background: linear-gradient(135deg, rgba($gold, 0.2), rgba($cyan, 0.2));
-  border: 1px solid rgba($gold, 0.3);
-  color: $gold;
-  font-size: 0.7rem;
-  font-weight: 800;
+  background: rgba($pu, .15);
+  border: 1px solid rgba($pu2, .3);
+  color: $pu2;
+  font-size: .7rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: .08em;
   padding: 2px 8px;
   border-radius: $radius-pill;
   @include respond-to(md) { display: none; }
@@ -130,21 +140,20 @@
   display: flex;
   align-items: center;
   gap: 12px;
-
   @include respond-to(sm) { gap: 8px; }
 }
 
 .username {
-  font-size: 0.9rem;
-  color: rgba($platinum, 0.8);
+  font-size: .9rem;
+  color: $dim;
   @include respond-to(md) { display: none; }
 }
 
 .logout {
   background: none;
-  border: 1px solid rgba($pink, 0.3);
-  color: rgba($platinum, 0.5);
-  font-size: 0.8rem;
+  border: 1px solid rgba($pu2, .2);
+  color: $dim;
+  font-size: .8rem;
   padding: 4px 12px;
   border-radius: $radius-pill;
   cursor: pointer;
@@ -153,12 +162,9 @@
   white-space: nowrap;
 
   &:hover {
-    color: $pink;
-    border-color: $pink;
+    color: #fff;
+    border-color: rgba($pu2, .5);
   }
 
-  @include respond-to(sm) {
-    padding: 4px 10px;
-    font-size: 0.75rem;
-  }
+  @include respond-to(sm) { padding: 4px 10px; font-size: .75rem; }
 }
