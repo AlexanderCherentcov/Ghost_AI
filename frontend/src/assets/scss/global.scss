@@ -199,6 +199,14 @@ body {
   100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
 }
 
+// Used by Intro AI names burst (applied dynamically via JS)
+@keyframes gnameFly {
+  0%   { opacity: 0; transform: translate(0, 0) scale(.7); }
+  12%  { opacity: 1; transform: translate(calc(var(--tx) * .08), calc(var(--ty) * .08)) scale(1.05); }
+  70%  { opacity: .8; }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(.3); filter: blur(8px); }
+}
+
 @keyframes scrollDot {
   0%   { cy: 10; opacity: 1; }
   100% { cy: 38; opacity: 0; }

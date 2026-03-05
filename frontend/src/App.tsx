@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
 import Navbar from '@/components/layout/Navbar'
 import Cursor from '@/components/ui/Cursor'
+import Particles from '@/components/ui/Particles'
+import Intro from '@/components/ui/Intro/Intro'
 import Landing from '@/pages/Landing/Landing'
 import Login from '@/pages/Login/Login'
 import Dashboard from '@/pages/Dashboard/Dashboard'
@@ -13,7 +15,9 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <>
+      <Intro />
       <div className="bg-haze" />
+      <Particles />
       <Cursor />
       <Navbar />
       <Routes>

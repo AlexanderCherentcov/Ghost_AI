@@ -2,6 +2,19 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './Landing.module.scss'
 
+const IMG_ITEMS = [
+  { src: 'https://images.unsplash.com/photo-1672872476232-da16b45c9001?auto=format&fit=crop&fm=jpg&q=80&w=2400', caption: 'Генеративный «город из света»' },
+  { src: 'https://images.unsplash.com/photo-1674027215016-0a4abfdbf1cc?auto=format&fit=crop&fm=jpg&q=80&w=2400', caption: 'Визуализация «AI-мозга»' },
+  { src: 'https://images.unsplash.com/photo-1750096319146-6310519b5af2?auto=format&fit=crop&fm=jpg&q=80&w=2400', caption: 'Кибер-сущность: взгляд в будущее' },
+  { src: 'https://images.unsplash.com/photo-1737644467636-6b0053476bb2?auto=format&fit=crop&fm=jpg&q=80&w=2400', caption: 'Андроид: точность и стиль' },
+  { src: 'https://images.unsplash.com/photo-1752070485313-71ac5e594ad0?auto=format&fit=crop&fm=jpg&q=80&w=2400', caption: 'Неон, дождь, киношная атмосфера' },
+]
+const VID_ITEMS = [
+  { src: 'https://cdn.pixabay.com/video/2023/11/13/188933-884185295_large.mp4', poster: 'https://cdn.pixabay.com/video/2023/11/13/188933-884185295_tiny.jpg', caption: 'Абстрактная «энергия» (loop)' },
+  { src: 'https://cdn.pixabay.com/video/2023/03/22/155718-810722623_large.mp4', poster: 'https://cdn.pixabay.com/video/2023/03/22/155718-810722623_tiny.jpg', caption: 'Частицы, форма, «AI-ритм»' },
+  { src: 'https://videos.pexels.com/video-files/3130284/3130284-hd_1920_1080_30fps.mp4', poster: '', caption: 'Неоновые абстракции (пример)' },
+]
+
 // ─────────────────────────────────────────────
 // Data
 // ─────────────────────────────────────────────
@@ -225,6 +238,85 @@ export default function Landing() {
                 <p className={styles.bentoDesc}>{b.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SHOWCASE (CAROUSELS) ──────────────── */}
+      <section className={styles.sec} id="showcase">
+        <div className={styles.secInner}>
+          <div className={`${styles.rv} ${styles.d1}`}>
+            <div className="section-header__tag">— ВИТРИНА</div>
+            <h2 className={`section-header__title ${styles.secTitle}`}>Так выглядит магия в работе</h2>
+            <p className="section-header__subtitle">Примеры «как будто ИИ сделал» — фото и видео, сгенерированные нейросетями</p>
+          </div>
+
+          {/* Image carousel */}
+          <div className={`${styles.showWrap} ${styles.rv}`}>
+            <div className={styles.showHead}>
+              <div className={styles.showTitle}>Карусель изображений</div>
+              <div className={styles.showActions}>
+                <button className={styles.showBtn} onClick={() => {
+                  const t = document.getElementById('imgTrack') as HTMLElement
+                  const w = t.querySelector('figure')?.getBoundingClientRect().width || 420
+                  t.scrollBy({ left: -(w + 14), behavior: 'smooth' })
+                }} aria-label="Назад">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </button>
+                <button className={styles.showBtn} onClick={() => {
+                  const t = document.getElementById('imgTrack') as HTMLElement
+                  const w = t.querySelector('figure')?.getBoundingClientRect().width || 420
+                  t.scrollBy({ left: w + 14, behavior: 'smooth' })
+                }} aria-label="Вперёд">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </button>
+              </div>
+            </div>
+            <div className={styles.carousel}>
+              <div className={styles.carTrack} id="imgTrack">
+                {IMG_ITEMS.map((img, i) => (
+                  <figure key={i} className={styles.carItem}>
+                    <img loading="lazy" src={img.src} alt={img.caption} />
+                    <figcaption>{img.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Video carousel */}
+          <div className={`${styles.showWrap} ${styles.rv}`} style={{ marginTop: '1.5rem' }}>
+            <div className={styles.showHead}>
+              <div className={styles.showTitle}>Видео-примеры</div>
+              <div className={styles.showActions}>
+                <button className={styles.showBtn} onClick={() => {
+                  const t = document.getElementById('vidTrack') as HTMLElement
+                  const w = t.querySelector('figure')?.getBoundingClientRect().width || 420
+                  t.scrollBy({ left: -(w + 14), behavior: 'smooth' })
+                }} aria-label="Назад">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </button>
+                <button className={styles.showBtn} onClick={() => {
+                  const t = document.getElementById('vidTrack') as HTMLElement
+                  const w = t.querySelector('figure')?.getBoundingClientRect().width || 420
+                  t.scrollBy({ left: w + 14, behavior: 'smooth' })
+                }} aria-label="Вперёд">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </button>
+              </div>
+            </div>
+            <div className={styles.carousel}>
+              <div className={styles.carTrack} id="vidTrack">
+                {VID_ITEMS.map((v, i) => (
+                  <figure key={i} className={`${styles.carItem} ${styles.carVideo}`}>
+                    <video playsInline muted loop controls preload="metadata" poster={v.poster}>
+                      <source src={v.src} type="video/mp4" />
+                    </video>
+                    <figcaption>{v.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

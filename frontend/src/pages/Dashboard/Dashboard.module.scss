@@ -1,3 +1,6 @@
+@use '@/assets/scss/variables' as *;
+@use '@/assets/scss/mixins' as *;
+
 .layout {
   display: flex;
   height: calc(100vh - 72px);
@@ -6,46 +9,15 @@
   z-index: $z-base;
 }
 
-// Mobile overlay backdrop
 .overlay {
   display: none;
-
   @include respond-to(lg) {
     display: block;
     position: fixed;
     inset: 72px 0 0 0;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(0,0,0,.65);
     z-index: 1400;
     backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-  }
-}
-
-// Mobile menu / hamburger button (hidden on desktop)
-.menuBtn {
-  display: none;
-
-  @include respond-to(lg) {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-    background: $glass;
-    border: 1px solid $glass-border;
-    border-radius: $radius-md;
-    padding: 6px 10px;
-    cursor: pointer;
-    font-size: 1rem;
-    color: $platinum;
-    font-family: $font-sans;
-    transition: $transition-base;
-    white-space: nowrap;
-
-    &:hover {
-      background: $glass-hover;
-      border-color: rgba($gold, 0.4);
-      color: $gold;
-    }
   }
 }
 
@@ -57,101 +29,153 @@
   min-width: 0;
 }
 
-// Empty state
-.empty {
-  flex: 1;
-  @include flex-center;
-  flex-direction: column;
-  gap: 16px;
-  text-align: center;
-}
-
-.emptyGhost {
-  font-size: 5rem;
-  animation: floatY 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 30px rgba($gold, 0.3));
-}
-
-.emptyTitle {
-  font-family: $font-serif;
-  font-size: 2rem;
-  @include gold-text;
-
-  @include respond-to(sm) { font-size: 1.5rem; }
-}
-
-.emptySub {
-  color: rgba($platinum, 0.5);
-  font-size: 0.95rem;
-}
-
-// Chat area
-.chatHeader {
+// ── Top bar ──────────────────────────────────
+.topBar {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 16px;
-  border-bottom: 1px solid $glass-border;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid $ln;
+  background: rgba(3,0,8,.6);
+  backdrop-filter: blur(20px);
   flex-shrink: 0;
-  @include glass-card;
-  border-radius: 0;
-  border-left: none;
-  border-right: none;
-  border-top: none;
-
-  @include respond-to(sm) {
-    gap: 8px;
-    padding: 10px 12px;
-  }
 }
 
-.chatInfo {
-  flex: 1;
-  min-width: 0;
-}
-
-.chatIcon {
-  font-size: 1.8rem;
+.menuBtn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  background: rgba($pu, .08);
+  border: 1px solid rgba($pu2, .2);
+  border-radius: 10px;
+  color: $dim;
+  cursor: pointer;
   flex-shrink: 0;
+  transition: all .2s;
 
-  @include respond-to(sm) { font-size: 1.4rem; }
+  &:hover { background: rgba($pu, .15); color: #fff; }
+
+  @include respond-to(lg) { display: flex; }
 }
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba($pu, .06);
+  border: 1px solid rgba($pu2, .12);
+  border-radius: 12px;
+  padding: 3px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9px;
+  border: none;
+  background: none;
+  color: $dim;
+  font-family: $font-sans;
+  font-size: .82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+
+  &:hover { color: $txt; }
+}
+
+.tabActive {
+  background: rgba($pu, .25);
+  color: $pu2;
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba($pu, .2);
+}
+
+.modeLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .82rem;
+  color: $dim;
+  @include respond-to(sm) { display: none; }
+}
+
+.modeLabelName {
+  font-weight: 600;
+  color: $txt;
+  @include respond-to(md) { display: none; }
+}
+
+.balancePill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba($pu, .08);
+  border: 1px solid rgba($pu2, .18);
+  padding: 5px 12px;
+  border-radius: $radius-pill;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.balanceIcon { color: $cy; font-size: .75rem; }
+.balanceNum { font-weight: 800; color: $cy; font-size: .9rem; }
+.balanceHint { font-size: .72rem; color: $dim; @include respond-to(sm) { display: none; } }
+
+// ── Chat sub-header ───────────────────────────
+.chatSubHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid $ln;
+  flex-shrink: 0;
+  background: rgba($pu, .03);
+
+  @include respond-to(sm) { padding: 8px 12px; gap: 8px; }
+}
+
+.chatInfo { flex: 1; min-width: 0; }
+.chatIcon { font-size: 1.6rem; flex-shrink: 0; @include respond-to(sm) { font-size: 1.3rem; } }
 
 .chatTitle {
   font-weight: 700;
-  font-size: 1rem;
-  color: $platinum;
-  @include truncate(1);
-
-  @include respond-to(sm) { font-size: 0.9rem; }
+  font-size: .95rem;
+  color: $txt;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .chatDesc {
-  font-size: 0.8rem;
-  color: rgba($platinum, 0.5);
-  @include truncate(1);
+  font-size: .78rem;
+  color: $dim;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   max-width: 400px;
-
   @include respond-to(sm) { display: none; }
 }
 
 .clearBtn {
-  margin-left: auto;
   background: none;
-  border: 1px solid $glass-border;
-  border-radius: $radius-md;
-  padding: 6px 10px;
+  border: 1px solid rgba($pu2, .15);
+  border-radius: 8px;
+  padding: 6px 8px;
   cursor: pointer;
-  transition: $transition-base;
-  font-size: 1rem;
+  color: $dim;
+  display: flex;
+  align-items: center;
+  transition: all .2s;
   flex-shrink: 0;
 
-  &:hover {
-    background: rgba($pink, 0.1);
-    border-color: rgba($pink, 0.3);
-  }
+  &:hover { background: rgba(239,68,68,.1); border-color: rgba(239,68,68,.3); color: #ef4444; }
 }
 
+// ── Messages ─────────────────────────────────
 .messages {
   flex: 1;
   overflow-y: auto;
@@ -161,26 +185,69 @@
   gap: 16px;
   @include custom-scrollbar;
 
-  @include respond-to(sm) {
-    padding: 16px 12px;
-    gap: 12px;
-  }
+  @include respond-to(sm) { padding: 14px 12px; gap: 12px; }
 }
 
 .loadingHistory {
   text-align: center;
-  color: rgba($platinum, 0.4);
-  font-size: 0.9rem;
+  color: rgba($txt, .3);
+  font-size: .9rem;
   margin: auto;
+}
+
+// ── Empty state ───────────────────────────────
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  padding: 2rem;
+}
+
+.emptyGhost {
+  font-size: 5rem;
+  animation: floatY 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 30px rgba($pu, .4));
+}
+
+.emptyTitle {
+  font-family: $font-serif;
+  font-size: 2rem;
+  background: linear-gradient(130deg, #fff, $pu2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  @include respond-to(sm) { font-size: 1.5rem; }
+}
+
+.emptySub { color: $dim; font-size: .9rem; }
+
+.openSidebarBtn {
+  margin-top: 8px;
+  padding: .6rem 1.6rem;
+  border-radius: $radius-pill;
+  border: none;
+  background: linear-gradient(135deg, #5B21B6, $pu, #6D28D9);
+  color: #fff;
+  font-family: $font-sans;
+  font-weight: 700;
+  font-size: .85rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba($pu, .4);
+  transition: box-shadow .3s, transform .2s;
+
+  &:hover { box-shadow: 0 6px 36px rgba($pu, .6); transform: translateY(-1px); }
 }
 
 .startHint {
   margin: auto;
   text-align: center;
-  color: rgba($platinum, 0.45);
-
-  p { font-size: 0.95rem; line-height: 1.6; }
-  strong { color: $gold; }
+  color: $dim;
+  p { font-size: .95rem; line-height: 1.6; }
+  strong { color: $cy; }
 }
 
 .startIcon {
@@ -190,50 +257,297 @@
   animation: floatY 4s ease-in-out infinite;
 }
 
-// Right panel
-.panel {
-  width: 220px;
-  flex-shrink: 0;
-  border-left: 1px solid $glass-border;
-  padding: 20px 16px;
+// ── ACCOUNT PAGE ─────────────────────────────
+.accountPage {
+  flex: 1;
   overflow-y: auto;
+  padding: 24px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   @include custom-scrollbar;
-
-  @include respond-to(xl) { display: none; }
+  @include respond-to(sm) { padding: 16px 14px 32px; gap: 16px; }
 }
 
-.panelTitle {
-  font-size: 0.75rem;
+// Profile card
+.accProfile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba($pu, .06);
+  border: 1px solid rgba($pu2, .14);
+  border-radius: 20px;
+  padding: 20px 24px;
+
+  @include respond-to(sm) { padding: 14px 16px; gap: 12px; }
+}
+
+.accAvatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $pu, $cy);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; font-weight: 800; color: #fff;
+  flex-shrink: 0;
+  overflow: hidden;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.accInfo { flex: 1; min-width: 0; }
+
+.accName {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: $txt;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.accEmail {
+  font-size: .78rem;
+  color: $dim;
+  margin-top: 2px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.accPlanBadge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 10px;
+  border-radius: $radius-pill;
+  border: 1px solid;
+  font-size: .7rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: rgba($platinum, 0.4);
-  margin-bottom: 16px;
+  letter-spacing: .08em;
 }
 
-.modeInfo {
-  @include glass-card;
-  border-radius: $radius-lg;
-  padding: 16px;
-  text-align: center;
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid rgba($pu2, .18);
+  color: $dim;
+  font-size: .78rem;
+  font-family: $font-sans;
+  padding: 6px 14px;
+  border-radius: $radius-pill;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  &:hover { color: #ef4444; border-color: rgba(239,68,68,.4); }
 }
 
-.modeInfoIcon { font-size: 2.5rem; margin-bottom: 8px; display: block; }
-.modeInfoName { font-weight: 700; color: $gold; font-size: 0.9rem; margin-bottom: 8px; }
-.modeInfoDesc {
-  font-size: 0.78rem;
-  color: rgba($platinum, 0.6);
-  line-height: 1.5;
+// Stats row
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+
+  @include respond-to(sm) { grid-template-columns: 1fr; }
+}
+
+.statCard {
+  background: rgba($pu, .05);
+  border: 1px solid rgba($pu2, .12);
+  border-radius: 16px;
+  padding: 18px;
+  transition: border-color .3s;
+
+  &:hover { border-color: rgba($pu2, .25); }
+}
+
+.statLabel {
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba($txt, .35);
+  margin-bottom: 8px;
+}
+
+.statNum {
+  font-family: $font-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: $txt;
+  line-height: 1;
+}
+
+.statSub {
+  font-size: .75rem;
+  color: $dim;
+  margin-top: 4px;
+}
+
+.statBonus {
+  margin-top: 6px;
+  font-size: .72rem;
+  color: $cy;
+  font-weight: 600;
+}
+
+.progressBar {
+  margin-top: 10px;
+  height: 3px;
+  background: rgba($pu, .15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width .5s ease;
+}
+
+// Sections
+.accSection {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.accSectionTitle {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba($txt, .35);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+
+  &::before { content: ''; width: 18px; height: 1px; background: rgba($pu2, .4); }
+}
+
+// Plans grid
+.plansGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.planCard {
+  position: relative;
+  background: rgba($pu, .04);
+  border: 1px solid rgba($pu2, .1);
+  border-radius: 16px;
+  padding: 18px 16px;
+  transition: border-color .3s, transform .3s;
+
+  &:hover { border-color: rgba($pu2, .2); transform: translateY(-2px); }
+}
+
+.planActive {
+  border-color: rgba($pu2, .3) !important;
+  background: rgba($pu, .1) !important;
+  box-shadow: 0 0 24px rgba($pu, .15);
+}
+
+.planCurrentTag {
+  position: absolute;
+  top: -8px; right: 12px;
+  background: linear-gradient(135deg, $pu, $cy);
+  color: #fff;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  padding: 2px 8px;
+  border-radius: $radius-pill;
+}
+
+.planName {
+  font-family: $font-serif;
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: $txt;
+  margin-bottom: 8px;
+}
+
+.planPrice {
+  margin-bottom: 6px;
+}
+
+.planNum {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: $pu2;
+}
+
+.planPer {
+  font-size: .75rem;
+  color: $dim;
+  margin-left: 3px;
+}
+
+.planCredits {
+  font-size: .75rem;
+  color: $dim;
   margin-bottom: 12px;
 }
 
-.modeInfoMeta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 0.75rem;
-  color: rgba($platinum, 0.5);
-  text-align: left;
+.planBtn {
+  width: 100%;
+  padding: .45rem .8rem;
+  border-radius: $radius-pill;
+  border: 1px solid rgba($pu2, .25);
+  background: rgba($pu, .1);
+  color: $pu2;
+  font-family: $font-sans;
+  font-size: .78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
 
-  strong { color: $cyan; }
+  &:hover {
+    background: rgba($pu, .25);
+    border-color: rgba($pu2, .5);
+    color: #fff;
+  }
+}
+
+// Quick grid
+.quickGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+}
+
+.quickCard {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba($pu, .04);
+  border: 1px solid rgba($pu2, .1);
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all .2s;
+
+  &:hover {
+    background: rgba($pu, .12);
+    border-color: rgba($pu2, .25);
+    transform: translateY(-1px);
+  }
+}
+
+.quickIcon { font-size: 1.3rem; flex-shrink: 0; }
+
+.quickName {
+  font-size: .78rem;
+  font-weight: 600;
+  color: $txt;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// ─────────────────
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
 }
