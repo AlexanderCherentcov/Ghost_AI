@@ -27,7 +27,16 @@ export default function Navbar() {
     <nav className={`${styles.nav} ${isLanding ? styles.landing : styles.app} ${visible ? styles.visible : ''}`}>
       <div className={styles.inner}>
         <Link to="/" className={styles.logo}>
-          <span className={styles.logoG}>👻</span>
+          <span className={styles.logoG}>
+            <svg width="22" height="28" viewBox="0 0 22 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 1C5.48 1 1 5.48 1 11v15l2.75-2.5 2.75 2.5 2.75-2.5L11 26l2.75-2.5 2.75 2.5 2.75-2.5L21 26V11C21 5.48 16.52 1 11 1z" fill="rgba(124,58,237,.35)" stroke="rgba(167,139,250,.75)" strokeWidth="1"/>
+              <circle cx="7.5" cy="10.5" r="2.2" fill="rgba(0,229,200,.95)"/>
+              <circle cx="8.4" cy="9.6"  r="0.8" fill="white" opacity=".9"/>
+              <circle cx="14.5" cy="10.5" r="2.2" fill="rgba(0,229,200,.95)"/>
+              <circle cx="15.4" cy="9.6"  r="0.8" fill="white" opacity=".9"/>
+              <path d="M7.5 16.5Q11 20 14.5 16.5" stroke="rgba(0,229,200,.9)" strokeWidth="1.4" strokeLinecap="round" fill="none"/>
+            </svg>
+          </span>
           GHOST AI
         </Link>
 

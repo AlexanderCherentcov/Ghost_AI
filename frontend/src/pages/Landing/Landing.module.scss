@@ -430,9 +430,26 @@
 }
 
 .toolIcon {
-  font-size: 1.8rem;
-  margin-bottom: .85rem;
-  display: block;
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, rgba($pu, .16), rgba($cy, .06));
+  border: 1px solid rgba($pu2, .18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: .9rem;
+  color: rgba($pu2, .85);
+  transition: background .3s, border-color .3s, color .3s, box-shadow .3s;
+
+  svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+  .toolCard:hover & {
+    background: linear-gradient(135deg, rgba($pu, .22), rgba($cy, .1));
+    border-color: rgba($cy, .28);
+    color: $cy;
+    box-shadow: 0 0 18px rgba($cy, .12);
+  }
 }
 
 .toolName {
@@ -474,37 +491,71 @@
   background: rgba($pu, .04);
   border: 1px solid $ln;
   border-radius: 20px;
-  padding: 1.8rem;
+  padding: 1.9rem;
   overflow: hidden;
   position: relative;
-  transition: border-color .3s, transform .3s;
+  transition: border-color .35s, transform .35s, box-shadow .35s;
 
+  // Top shimmer accent line
   &::before {
     content: '';
     position: absolute;
-    top: -60px; left: -60px;
-    width: 160px; height: 160px;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba($pu2,.45), transparent);
+    opacity: 0;
+    transition: opacity .4s;
+  }
+
+  // Corner glow blob
+  &::after {
+    content: '';
+    position: absolute;
+    top: -40px; left: -40px;
+    width: 180px; height: 180px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba($pu,.12), transparent 70%);
+    background: radial-gradient(circle, rgba($pu,.14), transparent 70%);
     pointer-events: none;
     opacity: 0;
     transition: opacity .4s;
   }
 
   &:hover {
-    border-color: rgba($pu, .3);
-    transform: translateY(-2px);
+    border-color: rgba($pu2, .28);
+    transform: translateY(-3px);
+    box-shadow: 0 20px 50px rgba($pu, .12);
 
     &::before { opacity: 1; }
+    &::after  { opacity: 1; }
   }
 
-  &.wide { grid-column: span 2; }
+  &.wide {
+    grid-column: span 2;
+    background: linear-gradient(135deg, rgba($pu, .06), rgba($cy, .02));
+  }
 }
 
-.bentoIcon {
-  font-size: 2rem;
-  margin-bottom: 1.1rem;
-  display: block;
+.bentoIconWrap {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba($pu, .2), rgba($cy, .07));
+  border: 1px solid rgba($pu2, .22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: $pu2;
+  transition: background .35s, border-color .35s, color .35s, box-shadow .35s;
+
+  svg { width: 26px; height: 26px; flex-shrink: 0; }
+
+  .bentoCard:hover & {
+    background: linear-gradient(135deg, rgba($pu, .28), rgba($cy, .12));
+    border-color: rgba($cy, .3);
+    color: $cy;
+    box-shadow: 0 0 24px rgba($cy, .14), 0 0 48px rgba($pu, .1);
+  }
 }
 
 .bentoTitle {
@@ -1121,8 +1172,8 @@
 }
 
 .tgPointIcon {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
   background: rgba($pu, .12);
   border: 1px solid rgba($pu, .2);
@@ -1130,7 +1181,9 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  font-size: 1rem;
+  color: $pu2;
+
+  svg { width: 18px; height: 18px; }
 }
 
 .tgPointTitle {
@@ -1203,9 +1256,9 @@
 }
 
 .socialBtn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
   background: rgba($pu, .07);
   border: 1px solid $ln;
   display: flex;
@@ -1213,14 +1266,16 @@
   justify-content: center;
   color: rgba(226,217,255,.45);
   text-decoration: none;
-  font-size: .65rem;
-  font-weight: 700;
   transition: all .25s;
+
+  svg { width: 17px; height: 17px; }
 
   &:hover {
     background: rgba($cy, .1);
     border-color: rgba($cy, .3);
     color: $cy;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba($cy, .12);
   }
 }
 
