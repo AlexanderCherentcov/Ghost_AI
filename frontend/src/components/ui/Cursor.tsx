@@ -3,39 +3,48 @@ import { useEffect, useRef } from 'react'
 export default function Cursor() {
   const dotRef  = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
-  const cursorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const cursor = cursorRef.current!
-    const dot    = dotRef.current!
-    const ring   = ringRef.current!
+    const dot  = dotRef.current!
+    const ring = ringRef.current!
 
-    let mx = 0, my = 0, fx = 0, fy = 0
+    let mx = -100, my = -100
+    let rx = -100, ry = -100
     let rafId = 0
+    let visible = false
 
+    // Dot: move instantly on mousemove — no rAF needed
     const onMove = (e: MouseEvent) => {
       mx = e.clientX
       my = e.clientY
-      cursor.style.transform = `translate(${mx}px,${my}px)`
+      dot.style.transform = `translate3d(${mx}px,${my}px,0) translate(-50%,-50%)`
+      if (!visible) {
+        visible = true
+        dot.style.opacity = '1'
+        ring.style.opacity = '1'
+      }
     }
 
-    const animate = () => {
-      fx += (mx - fx) * 0.10
-      fy += (my - fy) * 0.10
-      ring.style.transform = `translate(${fx}px,${fy}px) translate(-50%,-50%)`
-      rafId = requestAnimationFrame(animate)
+    // Ring: rAF with lerp 0.18 — fast enough to feel responsive
+    const tick = () => {
+      rx += (mx - rx) * 0.18
+      ry += (my - ry) * 0.18
+      ring.style.transform = `translate3d(${rx}px,${ry}px,0) translate(-50%,-50%)`
+      rafId = requestAnimationFrame(tick)
     }
 
-    const onEnter = () => cursor.classList.add('cursor--hover')
-    const onLeave = () => cursor.classList.remove('cursor--hover')
+    const onEnter = () => { ring.style.width = '52px'; ring.style.height = '52px'; ring.style.opacity = '.65' }
+    const onLeave = () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.opacity = '1' }
 
+    // Delegate hover detection — works for dynamic elements too
     document.addEventListener('mousemove', onMove)
-    document.querySelectorAll('a, button, [data-cursor]').forEach((el) => {
-      el.addEventListener('mouseenter', onEnter)
-      el.addEventListener('mouseleave', onLeave)
+    document.addEventListener('mouseover', (e) => {
+      const t = e.target as Element
+      if (t.closest('a, button, [data-cursor]')) onEnter()
+      else onLeave()
     })
 
-    rafId = requestAnimationFrame(animate)
+    rafId = requestAnimationFrame(tick)
     return () => {
       document.removeEventListener('mousemove', onMove)
       cancelAnimationFrame(rafId)
@@ -44,27 +53,36 @@ export default function Cursor() {
 
   return (
     <>
-      {/* Dot — moves instantly with mouse */}
-      <div ref={cursorRef} className="cursor" style={{ position: 'fixed', pointerEvents: 'none', zIndex: 99999, mixBlendMode: 'difference' }}>
-        <div ref={dotRef} className="dot" style={{
+      <div
+        ref={dotRef}
+        style={{
+          position: 'fixed', top: 0, left: 0,
           width: 8, height: 8,
           background: '#fff',
           borderRadius: '50%',
-          position: 'absolute',
-          transform: 'translate(-50%,-50%)',
-        }} />
-      </div>
-      {/* Ring — follows with lag */}
-      <div ref={ringRef} className="ring" style={{
-        width: 36, height: 36,
-        border: '1px solid rgba(167,139,250,.6)',
-        borderRadius: '50%',
-        position: 'fixed',
-        pointerEvents: 'none',
-        zIndex: 99998,
-        top: 0, left: 0,
-        transition: 'width .3s, height .3s',
-      }} />
+          pointerEvents: 'none',
+          zIndex: 99999,
+          mixBlendMode: 'difference',
+          willChange: 'transform',
+          opacity: 0,
+          transition: 'opacity .2s',
+        }}
+      />
+      <div
+        ref={ringRef}
+        style={{
+          position: 'fixed', top: 0, left: 0,
+          width: 36, height: 36,
+          border: '1px solid rgba(167,139,250,.6)',
+          borderRadius: '50%',
+          pointerEvents: 'none',
+          zIndex: 99998,
+          willChange: 'transform',
+          opacity: 0,
+          // Only size/opacity transition — NOT transform (transform is JS-driven)
+          transition: 'width .25s ease, height .25s ease, opacity .2s, border-color .25s',
+        }}
+      />
     </>
   )
 }
