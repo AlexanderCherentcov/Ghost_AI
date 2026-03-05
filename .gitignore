@@ -59,6 +59,7 @@ infra/ssl/
 uploads/
 *.mp3
 *.mp4
+!frontend/public/hero.mp4
 *.wav
 *.ogg
 

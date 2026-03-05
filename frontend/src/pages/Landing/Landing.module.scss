@@ -187,10 +187,54 @@
   justify-content: center;
 }
 
-.ghostSvg {
-  width: 100%;
-  height: 100%;
+// Video hero
+.vidWrap {
+  width: 92%;
+  max-width: 500px;
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
   animation: ghostFloat 7s ease-in-out infinite;
+  // soft edge mask — blends into dark bg
+  -webkit-mask-image: radial-gradient(ellipse 88% 90% at 50% 48%, black 48%, transparent 100%);
+  mask-image: radial-gradient(ellipse 88% 90% at 50% 48%, black 48%, transparent 100%);
+  box-shadow:
+    0 0 70px rgba(124,58,237,.3),
+    0 0 140px rgba(0,229,200,.1),
+    0 28px 70px rgba(0,0,0,.75);
+
+  // purple/cyan color tint overlay
+  &::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background: linear-gradient(145deg,
+      rgba(124,58,237,.24) 0%,
+      rgba(0,229,200,.07) 50%,
+      rgba(124,58,237,.2) 100%
+    );
+    mix-blend-mode: color;
+  }
+
+  // edge fade — merges into background
+  &::after {
+    content: '';
+    position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    border-radius: 32px;
+    background:
+      radial-gradient(ellipse 100% 32% at 50% 0%,   rgba(7,2,24,.9)  0%, transparent 100%),
+      radial-gradient(ellipse 100% 38% at 50% 100%,  rgba(7,2,24,.98) 0%, transparent 100%),
+      radial-gradient(ellipse 22% 100% at 0%   50%,  rgba(7,2,24,.65) 0%, transparent 100%),
+      radial-gradient(ellipse 22% 100% at 100% 50%,  rgba(7,2,24,.65) 0%, transparent 100%);
+  }
+}
+
+.heroVid {
+  width: 100%;
+  height: auto;
+  display: block;
+  mix-blend-mode: luminosity;
+  opacity: .9;
+  filter: brightness(1.06) saturate(1.2) contrast(1.04);
 }
 
 @keyframes ghostFloat {

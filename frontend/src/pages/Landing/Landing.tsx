@@ -150,34 +150,16 @@ export default function Landing() {
 
         <div className={styles.heroRight}>
           <div className={styles.heroVisual}>
-            <svg className={styles.ghostSvg} viewBox="0 0 400 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <radialGradient id="grd1" cx="50%" cy="40%" r="60%">
-                  <stop offset="0%" stopColor="#C4B5FD" stopOpacity=".9"/>
-                  <stop offset="50%" stopColor="#7C3AED" stopOpacity=".7"/>
-                  <stop offset="100%" stopColor="#030008" stopOpacity="0"/>
-                </radialGradient>
-                <radialGradient id="grd2" cx="50%" cy="35%" r="55%">
-                  <stop offset="0%" stopColor="#00E5C8" stopOpacity=".35"/>
-                  <stop offset="100%" stopColor="transparent" stopOpacity="0"/>
-                </radialGradient>
-                <filter id="ghostGlow">
-                  <feGaussianBlur stdDeviation="6" result="blur"/>
-                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-              </defs>
-              <path d="M200 55C132 55 82 113 82 188L82 382L117 358L152 382L187 358L200 372L213 358L248 382L283 358L318 382L318 188C318 113 268 55 200 55Z"
-                fill="url(#grd1)" filter="url(#ghostGlow)"/>
-              <path d="M200 55C132 55 82 113 82 188L82 382L117 358L152 382L187 358L200 372L213 358L248 382L283 358L318 382L318 188C318 113 268 55 200 55Z"
-                fill="none" stroke="rgba(167,139,250,.35)" strokeWidth="1.5"/>
-              <ellipse cx="165" cy="202" rx="22" ry="26" fill="#00E5C8" opacity=".9"/>
-              <ellipse cx="235" cy="202" rx="22" ry="26" fill="#00E5C8" opacity=".9"/>
-              <ellipse cx="168" cy="204" rx="10" ry="13" fill="#030008"/>
-              <ellipse cx="238" cy="204" rx="10" ry="13" fill="#030008"/>
-              <circle cx="172" cy="198" r="4" fill="#fff" opacity=".85"/>
-              <circle cx="242" cy="198" r="4" fill="#fff" opacity=".85"/>
-              <ellipse cx="200" cy="310" rx="78" ry="18" fill="url(#grd2)"/>
-            </svg>
+            <div className={styles.vidWrap}>
+              <video
+                className={styles.heroVid}
+                src="/hero.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+            </div>
             <div className={styles.visualAura} />
           </div>
         </div>
