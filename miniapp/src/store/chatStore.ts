@@ -31,12 +31,19 @@ interface ChatStore {
   clearMessages: () => void
 }
 
+const WELCOME: Message = {
+  id: 'welcome',
+  role: 'assistant',
+  content: 'Привет! Я Ghost AI. Выберите модель и режим вверху, затем напишите что-нибудь. 🌙',
+  time: '',
+}
+
 export const useChatStore = create<ChatStore>(set => ({
   activeModel: MODELS[0],
   activeMode: MODES[0],
-  messages: [],
+  messages: [WELCOME],
   setActiveModel: (m) => set({ activeModel: m }),
   setActiveMode: (m) => set({ activeMode: m }),
   addMessage: (msg) => set(s => ({ messages: [...s.messages, msg] })),
-  clearMessages: () => set({ messages: [] }),
+  clearMessages: () => set({ messages: [WELCOME] }),
 }))

@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useChatStore, MODELS, MODES } from '../../store/chatStore'
-import type { Message } from '../../types'
 import styles from './ChatPage.module.scss'
 
 const now = () => new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
@@ -35,20 +34,6 @@ export default function ChatPage() {
   const [typing, setTyping] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const welcomeAdded = useRef(false)
-
-  useEffect(() => {
-    if (messages.length === 0 && !welcomeAdded.current) {
-      welcomeAdded.current = true
-      addMessage({
-        id: 'welcome',
-        role: 'assistant',
-        content: 'Привет! Я Ghost AI. Выберите модель и режим вверху, затем напишите что-нибудь. 🌙',
-        time: now(),
-      })
-    }
-  }, [])
-
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, typing])
