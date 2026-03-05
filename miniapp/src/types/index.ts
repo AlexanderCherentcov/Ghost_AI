@@ -6,16 +6,36 @@ export interface User {
   balance?: number
 }
 
-export interface ActiveMode {
+export interface AIModel {
   id: string
   name: string
-  emoji: string
-  cost: number
+  icon: string
+  iconBg: string
+  badge: string
+  badgeColor: string
+  desc: string
+  tags: string[]
+  speed: string
+  ctx: string
+}
+
+export interface ChatMode {
+  id: string
+  label: string
+  icon: string
+  placeholder: string
 }
 
 export interface Message {
   id: string
   role: 'user' | 'assistant'
   content: string
-  cost?: number
+  time: string
+}
+
+export interface RecentChat {
+  title: string
+  preview: string
+  time: string
+  icon: string
 }

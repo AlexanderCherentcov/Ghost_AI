@@ -1,61 +1,47 @@
 .nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: $z-nav;
   display: flex;
-  align-items: flex-start;
-  padding: $space-2 0 max($space-3, env(safe-area-inset-bottom));
-  background: rgba($bg-dark, 0.85);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-top: 1px solid $glass-border;
+  align-items: center;
+  background: rgba(3, 0, 8, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid $ln;
+  padding: .55rem .5rem calc(.55rem + env(safe-area-inset-bottom, 0px));
+  flex-shrink: 0;
+  gap: .25rem;
 }
 
-.tab {
+.btn {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: .22rem;
   background: none;
   border: none;
   cursor: pointer;
-  padding: $space-1 0;
-  transition: $transition-fast;
+  padding: .4rem .2rem;
+  border-radius: 10px;
+  transition: $t-normal;
 
-  &:active { transform: scale(0.92); }
+  &:active { transform: scale(.92); }
 }
 
 .iconWrap {
-  position: relative;
-  width: 32px;
-  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
+  transition: transform .2s ease;
 
-// Subtle pulse ring behind active icon
-.ring {
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba($gold, 0.15), transparent 70%);
-  animation: pulseRing 2s ease-out infinite;
-  pointer-events: none;
+  .active & { transform: scale(1.15); }
 }
 
 .label {
-  font-size: 0.62rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: rgba($platinum, 0.35);
-  transition: $transition-fast;
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  color: $dim2;
+  transition: color .2s;
+  text-transform: uppercase;
 
-  .active & {
-    color: $gold;
-    font-weight: 600;
-  }
+  .active & { color: $cy; }
 }

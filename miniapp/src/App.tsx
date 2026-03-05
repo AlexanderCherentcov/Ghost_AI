@@ -3,13 +3,11 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { authApi } from './api/client'
 import { useAuthStore } from './store/authStore'
 import Splash from './components/ui/Splash/Splash'
-import Particles from './components/ui/Particles/Particles'
 import BottomNav from './components/layout/BottomNav/BottomNav'
+import HomePage from './pages/Home/HomePage'
 import ChatPage from './pages/Chat/ChatPage'
-import ModesPage from './pages/Modes/ModesPage'
-import PlansPage from './pages/Plans/PlansPage'
-import AccountPage from './pages/Account/AccountPage'
-import SupportPage from './pages/Support/SupportPage'
+import ModelsPage from './pages/Models/ModelsPage'
+import ProfilePage from './pages/Profile/ProfilePage'
 import styles from './App.module.scss'
 
 export default function App() {
@@ -24,6 +22,8 @@ export default function App() {
         if (tg) {
           tg.ready()
           tg.expand()
+          tg.setHeaderColor?.('#030008')
+          tg.setBackgroundColor?.('#030008')
           const initData = tg.initData
           if (initData) {
             const r = await authApi.telegramMiniApp(initData)
@@ -44,7 +44,7 @@ export default function App() {
   return (
     <BrowserRouter basename="/app">
       <div className={styles.app}>
-        <Particles />
+        <div className="ghost-bg" />
 
         {showSplash && <Splash onDone={onSplashDone} />}
 
@@ -52,13 +52,12 @@ export default function App() {
           <div className={styles.layout}>
             <main className={styles.main}>
               <Routes>
-                <Route path="/"        element={<Navigate to="/chat" replace />} />
+                <Route path="/"        element={<Navigate to="/home" replace />} />
+                <Route path="/home"    element={<HomePage />} />
                 <Route path="/chat"    element={<ChatPage />} />
-                <Route path="/modes"   element={<ModesPage />} />
-                <Route path="/plans"   element={<PlansPage />} />
-                <Route path="/account" element={<AccountPage />} />
-                <Route path="/support" element={<SupportPage />} />
-                <Route path="*"        element={<Navigate to="/chat" replace />} />
+                <Route path="/models"  element={<ModelsPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="*"        element={<Navigate to="/home" replace />} />
               </Routes>
             </main>
             <BottomNav />

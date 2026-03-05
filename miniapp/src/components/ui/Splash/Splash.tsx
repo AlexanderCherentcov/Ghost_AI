@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import Particles from '../Particles/Particles'
 import styles from './Splash.module.scss'
 
 const AI_NAMES = [
@@ -43,7 +42,7 @@ export default function Splash({ onDone }: SplashProps) {
 
   return (
     <div className={`${styles.splash} ${phase === 'exit' ? styles.exit : ''}`}>
-      <Particles />
+      <div className="ghost-bg" />
 
       <div className={styles.content}>
         <div className={`${styles.badge} ${phase !== 'enter' ? styles.visible : ''}`}>
