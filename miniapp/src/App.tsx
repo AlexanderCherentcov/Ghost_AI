@@ -42,7 +42,7 @@ export default function App() {
   const onSplashDone = useCallback(() => setShowSplash(false), [])
 
   return (
-    <BrowserRouter basename="/app">
+    <BrowserRouter>
       <div className={styles.app}>
         <div className="ghost-bg" />
 
