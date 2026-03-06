@@ -25,10 +25,15 @@ async def get_current_user(
     if not user_id or not jti:
         raise HTTPException(401, "Invalid token")
 
-    # Check blacklist
-    redis = await get_redis()
-    if await redis.get(f"blacklist:jti:{jti}"):
-        raise HTTPException(401, "Token revoked")
+    # Check blacklist (graceful on Redis unavailability)
+    try:
+        redis = await get_redis()
+        if await redis.get(f"blacklist:jti:{jti}"):
+            raise HTTPException(401, "Token revoked")
+    except HTTPException:
+        raise
+    except Exception:
+        pass  # Redis недоступен — пропускаем проверку blacklist
 
     user = await db.get(User, uuid.UUID(user_id))
     if not user or not user.is_active or user.is_banned:

@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update
 from datetime import datetime, timezone
 from fastapi import HTTPException
+import uuid as _uuid
 from app.models.models import CreditsWallet, CreditsLedger, Subscription
 
 
@@ -28,9 +29,10 @@ VIDEO_CREDITS = 200
 
 
 async def get_or_create_wallet(db: AsyncSession, user_id: str) -> CreditsWallet:
-    wallet = await db.get(CreditsWallet, user_id)
+    uid = _uuid.UUID(user_id) if isinstance(user_id, str) else user_id
+    wallet = await db.get(CreditsWallet, uid)
     if not wallet:
-        wallet = CreditsWallet(user_id=user_id, balance=15)
+        wallet = CreditsWallet(user_id=uid, balance=15)
         db.add(wallet)
         await db.commit()
         await db.refresh(wallet)
