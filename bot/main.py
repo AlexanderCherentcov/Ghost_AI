@@ -2,6 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.redis import RedisStorage
+from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
@@ -14,7 +15,12 @@ logger = logging.getLogger(__name__)
 
 async def main():
     config = BotConfig()
-    storage = RedisStorage.from_url(config.REDIS_URL)
+    try:
+        storage = RedisStorage.from_url(config.REDIS_URL)
+        logger.info("Using Redis storage")
+    except Exception as e:
+        logger.warning(f"Redis unavailable ({e}), falling back to MemoryStorage")
+        storage = MemoryStorage()
 
     bot = Bot(
         token=config.BOT_TOKEN,
