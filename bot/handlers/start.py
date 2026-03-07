@@ -28,7 +28,12 @@ async def cmd_start(message: types.Message, command: CommandObject):
                 "✅ <b>Авторизация успешна!</b>\n\n"
                 "Вернитесь на сайт — вход выполнен автоматически.",
             )
-        except Exception:
+        except Exception as e:
+            import logging as _logging
+            _logging.getLogger(__name__).error(
+                f"login-confirm failed: {type(e).__name__}: {e} | "
+                f"API_BASE_URL={config.API_BASE_URL} token={login_token[:8]}..."
+            )
             await message.answer(
                 "❌ Ссылка для входа устарела или уже использована.\n"
                 "Попробуйте снова на сайте.",
