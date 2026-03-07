@@ -70,15 +70,17 @@
   margin-bottom: 8px;
 }
 
-.tgWrap {
-  @include glass-card;
-  border-radius: $radius-lg;
-  padding: 16px;
+.telegram {
+  border-color: rgba(#2AABEE, 0.4) !important;
+  &:hover { border-color: rgba(#2AABEE, 0.7) !important; background: rgba(#2AABEE, 0.08) !important; }
+  &:disabled { opacity: 0.7; cursor: not-allowed; }
 }
 
-.tgWidget {
-  @include flex-center;
-  min-height: 48px;
+.tgHint {
+  text-align: center;
+  font-size: 0.82rem;
+  color: rgba($platinum, 0.5);
+  margin: -4px 0 4px;
 }
 
 .divider {

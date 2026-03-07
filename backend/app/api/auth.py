@@ -8,7 +8,7 @@ from urllib.parse import urlencode
 from app.core.database import get_db
 from app.core.config import settings
 from app.core.security import verify_telegram_init_data, verify_telegram_web_auth
-from app.schemas.schemas import TelegramMiniAppAuth, TelegramWebAuth, TelegramBotAuth, TokenResponse
+from app.schemas.schemas import TelegramMiniAppAuth, TelegramWebAuth, TelegramBotAuth, TelegramLoginConfirm, TokenResponse
 from app.services.auth import upsert_user_by_identity, get_active_subscription
 
 router = APIRouter()
@@ -92,6 +92,86 @@ async def telegram_web_auth(data: TelegramWebAuth, db: AsyncSession = Depends(ge
     )
     plan_id = await get_active_subscription(db, str(user.id))
     return {"access_token": token, "token_type": "bearer", "user": {"id": str(user.id), "username": user.username, "plan_id": plan_id}}
+
+
+import secrets as _secrets
+
+@router.post("/telegram/login-request")
+async def telegram_login_request():
+    """Generate one-time login token for Telegram deep link auth"""
+    from app.core.redis import get_redis
+    token = _secrets.token_urlsafe(24)
+    try:
+        redis = await get_redis()
+        await redis.setex(f"tg_login:{token}", 300, "pending")
+    except Exception:
+        raise HTTPException(503, "Auth service unavailable")
+    return {
+        "token": token,
+        "bot_url": f"https://t.me/{settings.BOT_USERNAME}?start=login_{token}",
+        "expires_in": 300,
+    }
+
+
+@router.get("/telegram/login-check/{token}")
+async def telegram_login_check(token: str):
+    """Poll for deep link login completion"""
+    from app.core.redis import get_redis
+    try:
+        redis = await get_redis()
+        data = await redis.get(f"tg_login:{token}")
+    except Exception:
+        raise HTTPException(503, "Auth service unavailable")
+
+    if data is None:
+        raise HTTPException(404, "Login token not found or expired")
+
+    value = data.decode() if isinstance(data, bytes) else data
+    if value == "pending":
+        return {"status": "pending"}
+
+    result = json.loads(value)
+    await redis.delete(f"tg_login:{token}")
+    return {"status": "confirmed", **result}
+
+
+@router.post("/telegram/login-confirm")
+async def telegram_login_confirm(data: TelegramLoginConfirm, db: AsyncSession = Depends(get_db)):
+    """Called by the bot to confirm deep link login (server-to-server)"""
+    from app.core.redis import get_redis
+    if data.admin_secret != settings.ADMIN_SECRET_KEY:
+        raise HTTPException(403, "Forbidden")
+
+    try:
+        redis = await get_redis()
+        status = await redis.get(f"tg_login:{data.token}")
+    except Exception:
+        raise HTTPException(503, "Auth service unavailable")
+
+    if status is None:
+        raise HTTPException(404, "Login token not found or expired")
+
+    value = status.decode() if isinstance(status, bytes) else status
+    if value != "pending":
+        raise HTTPException(409, "Token already used")
+
+    user, jwt_token = await upsert_user_by_identity(
+        db=db,
+        provider="telegram",
+        provider_user_id=str(data.telegram_id),
+        provider_data={
+            "name": data.first_name or "",
+            "username": data.username,
+        },
+    )
+    plan_id = await get_active_subscription(db, str(user.id))
+
+    result = {
+        "access_token": jwt_token,
+        "user": {"id": str(user.id), "username": user.username, "plan_id": plan_id},
+    }
+    await redis.setex(f"tg_login:{data.token}", 60, json.dumps(result))
+    return {"ok": True}
 
 
 @router.get("/google/authorize")

@@ -1,16 +1,39 @@
 from aiogram import Router, types
 from aiogram.filters import CommandStart
+from aiogram.filters.command import CommandObject
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from bot.core.config import BotConfig
-from bot.core.api_client import get_user_token, api_get
+from bot.core.api_client import get_user_token, api_get, api_post_plain
 
 router = Router()
 config = BotConfig()
 
 
 @router.message(CommandStart())
-async def cmd_start(message: types.Message):
+async def cmd_start(message: types.Message, command: CommandObject):
     user = message.from_user
+
+    # Handle deep link login from website
+    if command.args and command.args.startswith("login_"):
+        login_token = command.args[6:]  # strip "login_"
+        try:
+            await api_post_plain("/api/auth/telegram/login-confirm", {
+                "token": login_token,
+                "telegram_id": user.id,
+                "username": user.username,
+                "first_name": user.first_name,
+                "admin_secret": config.ADMIN_SECRET_KEY,
+            })
+            await message.answer(
+                "✅ <b>Авторизация успешна!</b>\n\n"
+                "Вернитесь на сайт — вход выполнен автоматически.",
+            )
+        except Exception:
+            await message.answer(
+                "❌ Ссылка для входа устарела или уже использована.\n"
+                "Попробуйте снова на сайте.",
+            )
+        return
 
     # Auth with backend
     try:

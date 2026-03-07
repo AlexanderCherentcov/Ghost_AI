@@ -4,6 +4,17 @@ from bot.core.config import BotConfig
 config = BotConfig()
 
 
+async def api_post_plain(path: str, data: dict) -> dict:
+    """Server-to-server POST without user token"""
+    async with httpx.AsyncClient() as client:
+        resp = await client.post(
+            f"{config.API_BASE_URL}{path}",
+            json=data,
+        )
+        resp.raise_for_status()
+        return resp.json()
+
+
 async def get_user_token(telegram_id: int, username: str = None, first_name: str = None) -> str:
     """Auth user via bot and get JWT token"""
     async with httpx.AsyncClient() as client:

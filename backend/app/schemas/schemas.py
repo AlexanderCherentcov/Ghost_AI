@@ -25,6 +25,14 @@ class TelegramBotAuth(BaseModel):
     first_name: Optional[str] = None
 
 
+class TelegramLoginConfirm(BaseModel):
+    token: str
+    telegram_id: int
+    username: Optional[str] = None
+    first_name: Optional[str] = None
+    admin_secret: str
+
+
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"

@@ -37,6 +37,12 @@ export const authApi = {
   telegramWeb: (data: { id: number; first_name: string; username?: string; hash: string; auth_date: number }) =>
     api.post<AuthResponse>('/auth/telegram/web', data),
 
+  telegramLoginRequest: () =>
+    api.post<{ token: string; bot_url: string; expires_in: number }>('/auth/telegram/login-request'),
+
+  telegramLoginCheck: (token: string) =>
+    api.get<{ status: 'pending' | 'confirmed'; access_token?: string; user?: User }>(`/auth/telegram/login-check/${token}`),
+
   googleAuthorize: () =>
     api.get<{ url: string }>('/auth/google/authorize'),
 

@@ -22,6 +22,7 @@ class Settings(BaseSettings):
 
     # Telegram
     BOT_TOKEN: str = "your_bot_token_here"
+    BOT_USERNAME: str = "GhostSuperAI_bot"
     BOT_WEBHOOK_SECRET: str = "webhook_secret"
     MINIAPP_URL: str = "https://ghostai.ru/app"
 
