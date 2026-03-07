@@ -4,8 +4,10 @@ import type { AuthResponse, Balance, Mode, Message, Document, Plan, User } from 
 // ========================
 // Axios instance
 // ========================
+const API_ORIGIN = import.meta.env.VITE_API_URL ?? ''
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: `${API_ORIGIN}/api`,
   timeout: 30_000,
   headers: { 'Content-Type': 'application/json' },
 })
@@ -79,7 +81,7 @@ export async function* streamChat(
   requestId: string,
 ): AsyncGenerator<{ delta?: string; done?: boolean; credits_used?: number; error?: string }> {
   const token = localStorage.getItem('token')
-  const response = await fetch('/api/chat/send', {
+  const response = await fetch(`${API_ORIGIN}/api/chat/send`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
