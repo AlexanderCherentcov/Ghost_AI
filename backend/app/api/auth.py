@@ -95,17 +95,61 @@ async def telegram_web_auth(data: TelegramWebAuth, db: AsyncSession = Depends(ge
 
 
 import secrets as _secrets
+import time as _time
+
+# In-memory fallback store when Redis is unavailable
+# {token: {"value": str, "expires_at": float}}
+_login_tokens: dict = {}
+
+def _mem_set(token: str, value: str, ttl: int):
+    _login_tokens[token] = {"value": value, "expires_at": _time.time() + ttl}
+
+def _mem_get(token: str):
+    entry = _login_tokens.get(token)
+    if not entry:
+        return None
+    if _time.time() > entry["expires_at"]:
+        _login_tokens.pop(token, None)
+        return None
+    return entry["value"]
+
+def _mem_del(token: str):
+    _login_tokens.pop(token, None)
+
+
+async def _tg_store_set(token: str, value: str, ttl: int):
+    try:
+        from app.core.redis import get_redis
+        redis = await get_redis()
+        await redis.setex(f"tg_login:{token}", ttl, value)
+    except Exception:
+        _mem_set(token, value, ttl)
+
+async def _tg_store_get(token: str):
+    try:
+        from app.core.redis import get_redis
+        redis = await get_redis()
+        data = await redis.get(f"tg_login:{token}")
+        if data is None:
+            return None
+        return data.decode() if isinstance(data, bytes) else data
+    except Exception:
+        return _mem_get(token)
+
+async def _tg_store_del(token: str):
+    try:
+        from app.core.redis import get_redis
+        redis = await get_redis()
+        await redis.delete(f"tg_login:{token}")
+    except Exception:
+        _mem_del(token)
+
 
 @router.post("/telegram/login-request")
 async def telegram_login_request():
     """Generate one-time login token for Telegram deep link auth"""
-    from app.core.redis import get_redis
     token = _secrets.token_urlsafe(24)
-    try:
-        redis = await get_redis()
-        await redis.setex(f"tg_login:{token}", 300, "pending")
-    except Exception:
-        raise HTTPException(503, "Auth service unavailable")
+    await _tg_store_set(token, "pending", 300)
     return {
         "token": token,
         "bot_url": f"https://t.me/{settings.BOT_USERNAME}?start=login_{token}",
@@ -116,42 +160,30 @@ async def telegram_login_request():
 @router.get("/telegram/login-check/{token}")
 async def telegram_login_check(token: str):
     """Poll for deep link login completion"""
-    from app.core.redis import get_redis
-    try:
-        redis = await get_redis()
-        data = await redis.get(f"tg_login:{token}")
-    except Exception:
-        raise HTTPException(503, "Auth service unavailable")
+    value = await _tg_store_get(token)
 
-    if data is None:
+    if value is None:
         raise HTTPException(404, "Login token not found or expired")
 
-    value = data.decode() if isinstance(data, bytes) else data
     if value == "pending":
         return {"status": "pending"}
 
     result = json.loads(value)
-    await redis.delete(f"tg_login:{token}")
+    await _tg_store_del(token)
     return {"status": "confirmed", **result}
 
 
 @router.post("/telegram/login-confirm")
 async def telegram_login_confirm(data: TelegramLoginConfirm, db: AsyncSession = Depends(get_db)):
     """Called by the bot to confirm deep link login (server-to-server)"""
-    from app.core.redis import get_redis
     if data.admin_secret != settings.ADMIN_SECRET_KEY:
         raise HTTPException(403, "Forbidden")
 
-    try:
-        redis = await get_redis()
-        status = await redis.get(f"tg_login:{data.token}")
-    except Exception:
-        raise HTTPException(503, "Auth service unavailable")
+    value = await _tg_store_get(data.token)
 
-    if status is None:
+    if value is None:
         raise HTTPException(404, "Login token not found or expired")
 
-    value = status.decode() if isinstance(status, bytes) else status
     if value != "pending":
         raise HTTPException(409, "Token already used")
 
@@ -170,7 +202,7 @@ async def telegram_login_confirm(data: TelegramLoginConfirm, db: AsyncSession = 
         "access_token": jwt_token,
         "user": {"id": str(user.id), "username": user.username, "plan_id": plan_id},
     }
-    await redis.setex(f"tg_login:{data.token}", 60, json.dumps(result))
+    await _tg_store_set(data.token, json.dumps(result), 60)
     return {"ok": True}
 
 
