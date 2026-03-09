@@ -28,6 +28,7 @@ interface ChatStore {
   setActiveModel: (m: AIModel) => void
   setActiveMode: (m: ChatMode) => void
   addMessage: (msg: Message) => void
+  updateMessage: (id: string, content: string) => void
   clearMessages: () => void
 }
 
@@ -45,5 +46,8 @@ export const useChatStore = create<ChatStore>(set => ({
   setActiveModel: (m) => set({ activeModel: m }),
   setActiveMode: (m) => set({ activeMode: m }),
   addMessage: (msg) => set(s => ({ messages: [...s.messages, msg] })),
+  updateMessage: (id, content) => set(s => ({
+    messages: s.messages.map(m => m.id === id ? { ...m, content } : m),
+  })),
   clearMessages: () => set({ messages: [WELCOME] }),
 }))

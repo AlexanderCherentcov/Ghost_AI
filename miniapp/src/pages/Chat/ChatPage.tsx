@@ -1,15 +1,17 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useChatStore, MODELS, MODES } from '../../store/chatStore'
+import { chatApi } from '../../api/client'
 import styles from './ChatPage.module.scss'
 
 const now = () => new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
 
-const DEMO_REPLIES: Record<string, string[]> = {
-  text:  ['Отличный вопрос! Давайте разберём подробнее. 🌙', 'Понял задачу. Вот развёрнутый ответ — всё зависит от контекста и ваших целей.'],
-  code:  ['```js\n// Ваша функция:\nfunction ghostAI(input) {\n  return input.split("").reverse().join("");\n}\n```\nКод готов — чистый и оптимизированный ✅'],
-  image: ['🖼️ Генерирую изображение... FLUX.1 обрабатывает промпт. Готово! Изображение создано в выбранном стиле.'],
-  video: ['🎬 Kling 1.6 генерирует видеосцену... Рендер займёт ~60 сек. Клип готов!'],
-  audio: ['🎵 Suno v4 создаёт трек... Трек готов! 🎶 Продолжительность: 30 сек.'],
+// Map miniapp mode IDs → backend mode IDs
+const MODE_MAP: Record<string, string> = {
+  text:  'general_chat',
+  code:  'code_assistant',
+  image: 'general_chat',
+  video: 'general_chat',
+  audio: 'general_chat',
 }
 
 const IMAGE_PARAMS = [
@@ -29,11 +31,12 @@ const AUDIO_PARAMS = [
 ]
 
 export default function ChatPage() {
-  const { activeModel, activeMode, messages, addMessage, clearMessages, setActiveModel, setActiveMode } = useChatStore()
+  const { activeModel, activeMode, messages, addMessage, updateMessage, clearMessages, setActiveModel, setActiveMode } = useChatStore()
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, typing])
@@ -45,7 +48,7 @@ export default function ChatPage() {
     el.style.height = Math.min(el.scrollHeight, 120) + 'px'
   }
 
-  const send = useCallback(() => {
+  const send = useCallback(async () => {
     const txt = input.trim()
     if (!txt || typing) return
     setInput('')
@@ -54,13 +57,44 @@ export default function ChatPage() {
     addMessage({ id: `u${Date.now()}`, role: 'user', content: txt, time: now() })
     setTyping(true)
 
-    const pool = DEMO_REPLIES[activeMode.id] ?? DEMO_REPLIES.text
-    const reply = pool[Math.floor(Math.random() * pool.length)]
-    setTimeout(() => {
-      addMessage({ id: `a${Date.now()}`, role: 'assistant', content: reply, time: now() })
+    const backendModeId = MODE_MAP[activeMode.id] ?? 'general_chat'
+    const requestId = `${Date.now()}`
+    const msgId = `a${requestId}`
+    let accumulated = ''
+
+    // Add placeholder message for streaming
+    addMessage({ id: msgId, role: 'assistant', content: '', time: now() })
+
+    try {
+      await chatApi.stream(
+        { mode_id: backendModeId, content: txt, request_id: requestId } as any,
+        (rawChunk) => {
+          try {
+            const chunk = JSON.parse(rawChunk)
+            if (chunk.delta) {
+              accumulated += chunk.delta
+              updateMessage(msgId, accumulated)
+            }
+            if (chunk.error) {
+              updateMessage(msgId, `❌ ${chunk.error}`)
+              setTyping(false)
+            }
+            if (chunk.done) {
+              setTyping(false)
+            }
+          } catch {}
+        }
+      )
+      if (!accumulated) {
+        updateMessage(msgId, '❌ Нет ответа от сервера')
+      }
+    } catch (e: any) {
+      const errMsg = e?.response?.data?.detail?.error || e?.message || 'Ошибка соединения'
+      updateMessage(msgId, `❌ ${errMsg}`)
+    } finally {
       setTyping(false)
-    }, 900 + Math.random() * 700)
-  }, [input, typing, activeMode, addMessage])
+    }
+  }, [input, typing, activeMode, addMessage, updateMessage])
 
   const handleKey = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() }
@@ -160,18 +194,18 @@ export default function ChatPage() {
               <div className={styles.msgAvatar}>{activeModel.icon}</div>
             )}
             <div className={styles.msgBubble}>
-              {msg.content}
+              {msg.content || (typing && msg.id.startsWith('a') ? (
+                <div className={styles.typingDots}><span /><span /><span /></div>
+              ) : '')}
             </div>
-            <div className={styles.msgTime}>{msg.time}</div>
+            {msg.content && <div className={styles.msgTime}>{msg.time}</div>}
           </div>
         ))}
-        {typing && (
+        {typing && !messages.some(m => m.id.startsWith('a') && !m.content) && (
           <div className={styles.msgRow}>
             <div className={styles.msgAvatar}>{activeModel.icon}</div>
             <div className={styles.msgBubble}>
-              <div className={styles.typingDots}>
-                <span /><span /><span />
-              </div>
+              <div className={styles.typingDots}><span /><span /><span /></div>
             </div>
           </div>
         )}
@@ -191,7 +225,7 @@ export default function ChatPage() {
             onChange={e => { setInput(e.target.value); autoGrow() }}
             onKeyDown={handleKey}
           />
-          <button className={styles.sendBtn} onClick={send}>
+          <button className={styles.sendBtn} onClick={send} disabled={typing}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5,12 12,5 19,12"/>
             </svg>
