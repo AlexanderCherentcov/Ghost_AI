@@ -34,8 +34,16 @@ export default function Dashboard() {
   useEffect(() => {
     if (!token) { navigate('/login'); return }
     chatApi.modes()
-      .then(({ data }) => setModes(data))
+      .then(({ data }) => {
+        setModes(data)
+        // Автовыбор general_chat при первой загрузке
+        if (data.length > 0 && !activeMode) {
+          const def = data.find((m: Mode) => m.id === 'general_chat') ?? data[0]
+          if (!def.is_locked) selectMode(def.id)
+        }
+      })
       .catch(() => addToast('error', 'Не удалось загрузить режимы'))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, navigate, addToast])
 
   useEffect(() => {
@@ -185,6 +193,12 @@ export default function Dashboard() {
                     <div className={styles.chatTitle}>{activeMode.title}</div>
                     <div className={styles.chatDesc}>{activeMode.description}</div>
                   </div>
+                  <button className={styles.switchModeBtn} onClick={() => setSidebarOpen(true)} title="Сменить режим">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                      <path d="M4 6h16M4 12h10M4 18h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    </svg>
+                    <span>Режим</span>
+                  </button>
                   <button className={styles.clearBtn} onClick={() => { chatApi.clearHistory(activeMode.id); setMessages([]) }} title="Очистить историю">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                       <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

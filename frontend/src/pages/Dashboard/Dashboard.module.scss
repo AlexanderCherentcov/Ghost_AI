@@ -160,6 +160,27 @@
   @include respond-to(sm) { display: none; }
 }
 
+.switchModeBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba($pu, .1);
+  border: 1px solid rgba($pu2, .25);
+  border-radius: $radius-pill;
+  padding: 5px 12px;
+  cursor: pointer;
+  color: $pu2;
+  font-family: $font-sans;
+  font-size: .76rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: all .2s;
+  white-space: nowrap;
+
+  &:hover { background: rgba($pu, .2); border-color: rgba($pu2, .5); }
+  @include respond-to(sm) { span { display: none; } padding: 6px 8px; border-radius: 8px; }
+}
+
 .clearBtn {
   background: none;
   border: 1px solid rgba($pu2, .15);
