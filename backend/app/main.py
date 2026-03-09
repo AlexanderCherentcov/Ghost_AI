@@ -14,6 +14,11 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Ghost AI API starting up...")
+    try:
+        from app.scripts.seed import seed
+        await seed()
+    except Exception as e:
+        logger.warning(f"Seed failed (non-fatal): {e}")
     yield
     logger.info("Ghost AI API shutting down...")
 
