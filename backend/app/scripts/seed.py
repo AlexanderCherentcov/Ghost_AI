@@ -90,7 +90,11 @@ async def seed():
                 db.add(plan)
 
         # Load modes from JSON
-        modes_file = os.path.join(os.path.dirname(__file__), "../../../modes/modes.json")
+        # Try multiple paths: inside backend/modes (Docker) or project root (local dev)
+        _base = os.path.dirname(__file__)
+        modes_file = os.path.join(_base, "../../modes/modes.json")
+        if not os.path.exists(modes_file):
+            modes_file = os.path.join(_base, "../../../modes/modes.json")
         if os.path.exists(modes_file):
             with open(modes_file, "r", encoding="utf-8") as f:
                 modes_data = json.load(f)
