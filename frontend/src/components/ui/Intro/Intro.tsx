@@ -10,11 +10,12 @@ const NAMES = [
 ]
 
 export default function Intro() {
-  const [hidden, setHidden] = useState(false)
+  const [hidden, setHidden] = useState(() => sessionStorage.getItem('intro_shown') === '1')
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const namesRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (hidden) return
     const ic = canvasRef.current!
     const ictx = ic.getContext('2d')!
     ic.width = window.innerWidth
@@ -100,6 +101,7 @@ export default function Intro() {
     const dismissTimer = setTimeout(() => {
       clearInterval(burstInt)
       running = false
+      sessionStorage.setItem('intro_shown', '1')
       setHidden(true)
     }, 4200)
 

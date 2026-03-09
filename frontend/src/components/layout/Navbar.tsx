@@ -65,7 +65,6 @@ export default function Navbar() {
             )}
             <div className={styles.user}>
               <span className={styles.username}>{user?.username || 'Пользователь'}</span>
-              <button className={styles.logout} onClick={logout}>Выйти</button>
             </div>
           </div>
         )}
