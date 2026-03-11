@@ -116,6 +116,15 @@ async def seed():
                         sort_order=m.get("sort_order", 0),
                     )
                     db.add(mode)
+                else:
+                    # Always update model_policy and price_policy from source of truth
+                    existing.model_policy = m["model_policy"]
+                    existing.price_policy = m["price_policy"]
+                    existing.system_prompt = m["system_prompt"]
+                    existing.title = m["title"]
+                    existing.description = m.get("description")
+                    existing.min_plan = m.get("min_plan", "free")
+                    existing.is_active = m.get("is_active", True)
 
         await db.commit()
         print("✅ Database seeded successfully!")
