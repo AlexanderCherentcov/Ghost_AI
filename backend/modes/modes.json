@@ -9,13 +9,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 2048
     },
@@ -38,13 +38,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 4096
     },
@@ -67,13 +67,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 4096
     },
@@ -96,13 +96,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 4096
     },
@@ -125,13 +125,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 4096
     },
@@ -154,13 +154,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 2048
     },
@@ -183,13 +183,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 4096
     },
@@ -212,13 +212,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 1024
     },
@@ -241,13 +241,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 1024
     },
@@ -270,13 +270,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 4096
     },
@@ -299,13 +299,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 3000
     },
@@ -328,13 +328,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 512
     },
@@ -357,13 +357,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 256,
       "type": "image"
@@ -387,13 +387,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 512,
       "type": "voice"
@@ -417,13 +417,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 2048,
       "type": "rag"
@@ -447,13 +447,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 3000
     },
@@ -476,13 +476,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 1024
     },
@@ -505,13 +505,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 3000
     },
@@ -534,13 +534,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 2048
     },
@@ -563,13 +563,13 @@
     "model_policy": {
       "tier": "premium",
       "economy_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "premium_models": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "fallback": [
-        "openai/gemini-2.5-flash-lite"
+        "openai/gemini-2.0-flash"
       ],
       "max_tokens": 4096
     },
