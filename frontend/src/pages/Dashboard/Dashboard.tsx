@@ -69,7 +69,9 @@ export default function Dashboard() {
     setLoadingHistory(true)
     try {
       const { data } = await chatApi.history(modeId)
-      setMessages(Array.isArray(data) ? data : (data.messages ?? []))
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const msgs: Message[] = Array.isArray(data) ? data : ((data as any).messages ?? [])
+      setMessages(msgs)
     } catch {
       // no history
     } finally {
