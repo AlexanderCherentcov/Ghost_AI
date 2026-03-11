@@ -11,6 +11,7 @@ export const useUIStore = create<UIState>((set) => ({
   toasts: [],
 
   addToast: (type, message, duration = 4000) => {
+    if (type === 'error') console.error('[Ghost AI]', message)
     const id = Math.random().toString(36).slice(2)
     set((s) => ({ toasts: [...s.toasts, { id, type, message }] }))
     setTimeout(() => {
