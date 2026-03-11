@@ -38,8 +38,8 @@ class Settings(BaseSettings):
 
     # Providers - LLM
     LLM_PREMIUM_API_KEY: str = ""
-    LLM_PREMIUM_BASE_URL: str = "https://api.openai.com/v1"
-    LLM_PREMIUM_MODEL: str = "gpt-4o"
+    LLM_PREMIUM_BASE_URL: str = "https://generativelanguage.googleapis.com/v1beta/openai"
+    LLM_PREMIUM_MODEL: str = "gemini-2.5-flash"
 
     LLM_ECONOMY_API_KEY: str = ""
     LLM_ECONOMY_BASE_URL: str = "https://api.together.xyz/v1"
