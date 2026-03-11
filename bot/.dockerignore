@@ -1,0 +1,11 @@
+frontend/
+miniapp/
+backend/
+modes/
+.git/
+.github/
+*.md
+node_modules/
+__pycache__/
+*.pyc
+.env
