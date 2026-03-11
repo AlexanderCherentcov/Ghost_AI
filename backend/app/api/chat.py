@@ -1,4 +1,7 @@
+import logging
 from fastapi import APIRouter, Depends, HTTPException, Request
+
+logger = logging.getLogger(__name__)
 from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
@@ -150,9 +153,10 @@ async def chat_send(
         except Exception as e:
             error_code = "provider_error"
             status = "error"
+            logger.error("Provider error [%s / %s]: %s", decision.provider, decision.model, e, exc_info=True)
             await record_provider_error(decision.provider)
-            yield f"data: {json.dumps({'error': 'Provider error, please try again'})}\n\n"
-            full_response = "Ошибка при обращении к провайдеру. Попробуйте ещё раз."
+            yield f"data: {json.dumps({'error': f'Provider error: {type(e).__name__}: {e}'})}\n\n"
+            full_response = str(e)
 
         latency_ms = int((time.time() - start_time) * 1000)
 
