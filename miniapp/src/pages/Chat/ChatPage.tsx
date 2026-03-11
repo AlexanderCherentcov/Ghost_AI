@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useChatStore, MODELS, MODES } from '../../store/chatStore'
 import { chatApi } from '../../api/client'
+import ModelLogo from '../../components/ModelLogo'
 import styles from './ChatPage.module.scss'
 
 const now = () => new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
@@ -61,6 +62,7 @@ export default function ChatPage() {
     const requestId = `${Date.now()}`
     const msgId = `a${requestId}`
     let accumulated = ''
+    let hadError = false
 
     // Add placeholder message for streaming
     addMessage({ id: msgId, role: 'assistant', content: '', time: now() })
@@ -76,6 +78,7 @@ export default function ChatPage() {
               updateMessage(msgId, accumulated)
             }
             if (chunk.error) {
+              hadError = true
               updateMessage(msgId, `❌ ${chunk.error}`)
               setTyping(false)
             }
@@ -85,7 +88,7 @@ export default function ChatPage() {
           } catch {}
         }
       )
-      if (!accumulated) {
+      if (!accumulated && !hadError) {
         updateMessage(msgId, '❌ Нет ответа от сервера')
       }
     } catch (e: any) {
@@ -155,7 +158,7 @@ export default function ChatPage() {
             className={`${styles.selPill} ${m.id === activeModel.id ? styles.active : ''}`}
             onClick={() => selectModel(m.id)}
           >
-            <span>{m.icon}</span>
+            <ModelLogo modelId={m.id} size={16} />
             <span className={styles.pillLabel}>{m.name}</span>
           </button>
         ))}
@@ -191,7 +194,9 @@ export default function ChatPage() {
         {messages.map(msg => (
           <div key={msg.id} className={`${styles.msgRow} ${msg.role === 'user' ? styles.user : ''}`}>
             {msg.role === 'assistant' && (
-              <div className={styles.msgAvatar}>{activeModel.icon}</div>
+              <div className={styles.msgAvatar}>
+                <ModelLogo modelId={activeModel.id} size={22} />
+              </div>
             )}
             <div className={styles.msgBubble}>
               {msg.content || (typing && msg.id.startsWith('a') ? (
@@ -203,7 +208,7 @@ export default function ChatPage() {
         ))}
         {typing && !messages.some(m => m.id.startsWith('a') && !m.content) && (
           <div className={styles.msgRow}>
-            <div className={styles.msgAvatar}>{activeModel.icon}</div>
+            <div className={styles.msgAvatar}><ModelLogo modelId={activeModel.id} size={22} /></div>
             <div className={styles.msgBubble}>
               <div className={styles.typingDots}><span /><span /><span /></div>
             </div>

@@ -69,7 +69,7 @@ export default function Dashboard() {
     setLoadingHistory(true)
     try {
       const { data } = await chatApi.history(modeId)
-      setMessages(data)
+      setMessages(Array.isArray(data) ? data : (data.messages ?? []))
     } catch {
       // no history
     } finally {

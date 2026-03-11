@@ -43,9 +43,8 @@ async def route_request(
     # 2. Determine tier
     desired_tier = policy.get("tier", "economy")
 
-    # 3. Downgrade if plan doesn't support premium
-    if desired_tier == "premium" and plan_id in ["free", "starter"]:
-        desired_tier = "economy"
+    # 3. All tiers use premium provider (Gemini is configured for all)
+    desired_tier = "premium"
 
     # 4. Estimate cost
     input_tokens = estimate_tokens(content)

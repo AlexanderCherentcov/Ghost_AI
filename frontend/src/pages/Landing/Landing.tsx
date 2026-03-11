@@ -6,88 +6,97 @@ import styles from './Landing.module.scss'
 // SVG Icon components (all SVG, no emoji)
 // ─────────────────────────────────────────────
 
+// OpenAI — официальная форма "розетки" (6 лепестков)
 const IcoOpenAI = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 2.7L3.8 7.3v9.4l8.2 4.6 8.2-4.6V7.3L12 2.7z"/>
-    <circle cx="12" cy="12" r="3" fill="currentColor" opacity=".35"/>
-    <line x1="12" y1="9" x2="12" y2="2.7" strokeWidth="1" opacity=".4"/>
-    <line x1="12" y1="15" x2="12" y2="21.3" strokeWidth="1" opacity=".4"/>
-    <line x1="9.3" y1="10.5" x2="3.8" y2="7.3" strokeWidth="1" opacity=".4"/>
-    <line x1="14.7" y1="13.5" x2="20.2" y2="16.7" strokeWidth="1" opacity=".4"/>
-    <line x1="9.3" y1="13.5" x2="3.8" y2="16.7" strokeWidth="1" opacity=".4"/>
-    <line x1="14.7" y1="10.5" x2="20.2" y2="7.3" strokeWidth="1" opacity=".4"/>
-  </svg>
-)
-
-const IcoAnthropic = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 3L22 21H2L12 3z"/>
-    <circle cx="12" cy="15" r="2.5" fill="currentColor" opacity=".45" stroke="none"/>
-    <line x1="12" y1="9" x2="12" y2="12.5" strokeWidth="1.5"/>
-  </svg>
-)
-
-const IcoGemini = () => (
   <svg viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2C12 2 12.4 9.2 12 12C11.6 14.8 2 12 2 12C2 12 11.6 11.2 12 12C12.4 12.8 12 22 12 22C12 22 11.6 14.8 12 12C12.4 9.2 22 12 22 12C22 12 12.4 12.8 12 12C11.6 11.2 12 2 12 2Z" opacity=".9"/>
+    <path d="M22.28 9.76a5.84 5.84 0 00-.5-4.8 6 6 0 00-6.44-2.88A5.84 5.84 0 0011.1 0a6 6 0 00-5.72 4.14 5.84 5.84 0 00-3.9 2.84 6 6 0 00.74 7.02 5.84 5.84 0 00.5 4.8 6 6 0 006.44 2.88A5.84 5.84 0 0012.9 24a6 6 0 005.72-4.14 5.84 5.84 0 003.9-2.84 6 6 0 00-.74-7.26zM12.9 22.5a4.5 4.5 0 01-2.88-1.04l.14-.08 4.78-2.76a.78.78 0 00.4-.68v-6.74l2.02 1.16a.07.07 0 01.04.06v5.58A4.52 4.52 0 0112.9 22.5zM3.6 18.42a4.5 4.5 0 01-.54-3.02l.14.08 4.78 2.76a.78.78 0 00.78 0l5.84-3.38v2.32a.08.08 0 01-.03.06L9.7 20.04a4.52 4.52 0 01-6.1-1.62zm-.92-9.9A4.5 4.5 0 015.06 6.4v5.66a.78.78 0 00.4.68l5.84 3.36-2.02 1.16a.08.08 0 01-.08 0L4.48 14.5a4.52 4.52 0 01-.8-5.98zm16.6 3.86l-5.84-3.38 2.02-1.16a.08.08 0 01.08 0l4.72 2.72a4.5 4.5 0 01-.7 8.12V13.1a.78.78 0 00-.28-.72zm2-3.04l-.14-.08-4.78-2.74a.78.78 0 00-.78 0L9.74 9.9V7.58a.08.08 0 01.03-.06l4.72-2.72a4.52 4.52 0 016.69 4.64zM8.66 12.84l-2.02-1.16a.08.08 0 01-.04-.06V6.04a4.52 4.52 0 017.4-3.46l-.14.08-4.78 2.76a.78.78 0 00-.4.68l-.02 6.74zm1.1-2.36L12 9.18l2.24 1.28v2.58L12 14.32l-2.24-1.28v-2.56z"/>
   </svg>
 )
 
+// Anthropic — буква A из официального логотипа
+const IcoAnthropic = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <path d="M13.83 3h-3.66L4 21h3.5l1.3-3.5h6.4l1.3 3.5H20L13.83 3zm-3.8 11.5L12 7.6l1.97 6.9h-3.94z"/>
+  </svg>
+)
+
+// Google Gemini — четырёхлучевая звезда (официальный знак)
+const IcoGemini = () => (
+  <svg viewBox="0 0 24 24" fill="none">
+    <defs>
+      <linearGradient id="lgGem" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#4285f4"/>
+        <stop offset="50%" stopColor="#9c27b0"/>
+        <stop offset="100%" stopColor="#34a853"/>
+      </linearGradient>
+    </defs>
+    <path fill="url(#lgGem)" d="M12 2C12 2 12 9.5 5 12C12 14.5 12 22 12 22C12 22 12 14.5 19 12C12 9.5 12 2 12 2Z"/>
+  </svg>
+)
+
+// FLUX.1 — стилизованная буква F (Black Forest Labs)
 const IcoFLUX = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-    <path d="M5 4h10M5 12h7M5 20h5"/>
-    <path d="M19 7l3 4-3 4" strokeLinejoin="round"/>
+  <svg viewBox="0 0 24 24" fill="none">
+    <rect x="2" y="2" width="20" height="20" rx="6" fill="#7c3aed"/>
+    <text x="12" y="17" textAnchor="middle" fill="white" fontSize="13" fontWeight="900" fontFamily="Arial,sans-serif">F</text>
   </svg>
 )
 
+// DALL·E 3 — OpenAI логотип в зелёной рамке
 const IcoDALLE = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="18" height="18" rx="4"/>
-    <circle cx="8.5" cy="8.5" r="1.8" fill="currentColor" stroke="none" opacity=".5"/>
-    <path d="M21 15l-5-5.5L11 17H3"/>
+  <svg viewBox="0 0 24 24" fill="none">
+    <rect x="2" y="2" width="20" height="20" rx="6" fill="#10a37f"/>
+    <path fill="white" d="M12 5.5C8.96 5.5 6.5 7.96 6.5 11c0 1.57.66 2.98 1.7 3.99L6.5 17.5h3.1l.4-1.1c.64.2 1.31.1 1.31.1h.69c3.04 0 5.5-2.46 5.5-5.5S15.04 5.5 12 5.5zm0 9c-1.93 0-3.5-1.57-3.5-3.5S10.07 7.5 12 7.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+    <circle cx="12" cy="11" r="1.5" fill="white"/>
   </svg>
 )
 
+// Suno — концентрические дуги (звуковые волны)
 const IcoSuno = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M9 18V5l12-2v13"/>
-    <circle cx="6" cy="18" r="3"/>
-    <circle cx="18" cy="16" r="3"/>
+  <svg viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="10" fill="#e63946"/>
+    <circle cx="12" cy="12" r="4" fill="white" opacity=".95"/>
+    <circle cx="12" cy="12" r="1.8" fill="#e63946"/>
+    <path stroke="white" strokeWidth="1.4" fill="none" strokeLinecap="round"
+      d="M7.5 8.5a6.5 6.5 0 000 7M16.5 8.5a6.5 6.5 0 010 7"/>
   </svg>
 )
 
+// Kling — буква K (Kuaishou)
 const IcoKling = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="4" width="20" height="16" rx="3"/>
-    <path d="M2 9h20M10 4v5M14 4v5"/>
-    <path d="M10.5 14.5l5-2.5-5-2.5v5z" fill="currentColor" stroke="none" opacity=".6"/>
+  <svg viewBox="0 0 24 24" fill="none">
+    <rect x="2" y="2" width="20" height="20" rx="6" fill="#f59e0b"/>
+    <path fill="white" d="M8 7h2v10H8V7zm3 5l4.5-5H18L13.5 12 18 17h-2.5L11 12z"/>
   </svg>
 )
 
+// Runway — буква R с горизонтальными полосами «взлётной полосы»
 const IcoRunway = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5 12h14M15 7l5 5-5 5"/>
-    <path d="M5 7v10" strokeWidth="1" opacity=".4"/>
-    <path d="M2 7v10" strokeWidth=".8" opacity=".25"/>
+  <svg viewBox="0 0 24 24" fill="none">
+    <rect x="2" y="2" width="20" height="20" rx="6" fill="#1a1a2e"/>
+    <path fill="white" d="M7 7h4.5a3 3 0 010 6H9.5l3.5 4H11L7.5 13H9v-2h2.5a1 1 0 000-2H7V7zm8.5 0H17v10h-1.5V7z"/>
   </svg>
 )
 
+// Meta Llama — огонь (официальный знак Meta AI)
 const IcoLlama = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 12C9.2 7.5 5 7 5 7C5 15 8.5 19 12 19C15.5 19 19 15 19 7C19 7 14.8 7.5 12 12z"/>
-    <path d="M12 12C12 12 12 7 12 4" strokeWidth="1" opacity=".5"/>
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C9 5.5 7 8 7 12a5 5 0 0010 0c0-1.5-.5-2.9-1.3-4C14.5 10 13 11.5 12 14c-1-2.5-1-5 0-7-.3 1.2-.3 2.5 0 3.5C13 8.5 13.5 5 12 2z" opacity=".9"/>
+    <path d="M12 14c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.4 0 .7.1 1 .3" opacity=".6"/>
   </svg>
 )
 
+// ElevenLabs — звуковые полосы разной высоты
 const IcoEleven = () => (
   <svg viewBox="0 0 24 24" fill="currentColor">
-    <rect x="3"  y="5"  width="3" height="14" rx="1.5" opacity=".9"/>
-    <rect x="7.5" y="8"  width="3" height="11" rx="1.5" opacity=".75"/>
-    <rect x="12" y="3"  width="3" height="18" rx="1.5"/>
-    <rect x="16.5" y="7" width="2.5" height="12" rx="1.25" opacity=".7"/>
+    <rect x="2"   y="5"  width="3"   height="14" rx="1.5"/>
+    <rect x="7"   y="8"  width="3"   height="10" rx="1.5" opacity=".8"/>
+    <rect x="12"  y="3"  width="3"   height="18" rx="1.5"/>
+    <rect x="17"  y="7"  width="3"   height="11" rx="1.5" opacity=".75"/>
   </svg>
 )
 
+// OpenAI Whisper — микрофон с волнами (OpenAI)
 const IcoWhisper = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/>
@@ -97,12 +106,16 @@ const IcoWhisper = () => (
   </svg>
 )
 
+// DeepSeek — стилизованная рыба / «глубокое море»
 const IcoDeepSeek = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="11" cy="11" r="7"/>
-    <path d="M20 20l-3.5-3.5"/>
-    <circle cx="11" cy="11" r="2.5" fill="currentColor" stroke="none" opacity=".4"/>
-    <path d="M8.5 10.5C9 8.8 11 8.5 12.5 9.5" strokeWidth="1.2"/>
+  <svg viewBox="0 0 24 24" fill="none">
+    <defs>
+      <linearGradient id="lgDS" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#4e6ef2"/>
+        <stop offset="100%" stopColor="#00c9ff"/>
+      </linearGradient>
+    </defs>
+    <path fill="url(#lgDS)" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.8 0 3.45.62 4.76 1.65L5.65 16.76A7 7 0 0112 5zm0 14a7 7 0 01-4.76-1.65l11.11-10.11A7 7 0 0112 19z"/>
   </svg>
 )
 
@@ -208,16 +221,16 @@ const IMG_ITEMS = [
 ]
 
 const VID_ITEMS = [
-  { src: 'https://cdn.pixabay.com/video/2023/11/13/188933-884185295_large.mp4', poster: 'https://cdn.pixabay.com/video/2023/11/13/188933-884185295_tiny.jpg', caption: 'Абстрактная «энергия» (AI loop)' },
-  { src: 'https://cdn.pixabay.com/video/2023/03/22/155718-810722623_large.mp4', poster: 'https://cdn.pixabay.com/video/2023/03/22/155718-810722623_tiny.jpg', caption: 'Частицы, форма, «AI-ритм»' },
-  { src: 'https://videos.pexels.com/video-files/3130284/3130284-hd_1920_1080_30fps.mp4', poster: '', caption: 'Неоновые абстракции' },
-  { src: 'https://videos.pexels.com/video-files/3571264/3571264-hd_1920_1080_30fps.mp4', poster: '', caption: 'Магия частиц — генеративное' },
-  { src: 'https://videos.pexels.com/video-files/2022395/2022395-hd_1920_1080_25fps.mp4', poster: '', caption: 'Световые следы в темноте' },
-  { src: 'https://videos.pexels.com/video-files/3796572/3796572-hd_1920_1080_25fps.mp4', poster: '', caption: 'Цветной ИИ-поток' },
-  { src: 'https://videos.pexels.com/video-files/2899685/2899685-hd_1920_1080_25fps.mp4', poster: '', caption: 'Голографический мир' },
-  { src: 'https://cdn.pixabay.com/video/2022/04/29/116064-705244087_large.mp4', poster: '', caption: 'Волны энергии — синтез' },
-  { src: 'https://cdn.pixabay.com/video/2021/08/17/84657-585718698_large.mp4', poster: '', caption: 'Нейронный пульс' },
-  { src: 'https://videos.pexels.com/video-files/7134032/7134032-hd_1920_1080_30fps.mp4', poster: '', caption: 'Цифровой горизонт' },
+  { grad: 'linear-gradient(135deg,#7c3aed 0%,#00e5c8 100%)', label: '✦', caption: 'Абстрактная энергия' },
+  { grad: 'linear-gradient(135deg,#e63946 0%,#7c3aed 100%)', label: '◈', caption: 'Нейронный пульс' },
+  { grad: 'linear-gradient(135deg,#00e5c8 0%,#4285f4 100%)', label: '⬡', caption: 'Неоновые абстракции' },
+  { grad: 'linear-gradient(135deg,#f59e0b 0%,#e63946 100%)', label: '❋', caption: 'Световые следы' },
+  { grad: 'linear-gradient(135deg,#10a37f 0%,#7c3aed 100%)', label: '◉', caption: 'Голографический мир' },
+  { grad: 'linear-gradient(135deg,#4285f4 0%,#00e5c8 100%)', label: '⬢', caption: 'Цифровой горизонт' },
+  { grad: 'linear-gradient(135deg,#c96a2b 0%,#f59e0b 100%)', label: '✸', caption: 'Волны энергии' },
+  { grad: 'linear-gradient(135deg,#7c3aed 0%,#e63946 100%)', label: '⊕', caption: 'AI-ритм' },
+  { grad: 'linear-gradient(135deg,#00e5c8 0%,#10a37f 100%)', label: '❂', caption: 'Генеративный поток' },
+  { grad: 'linear-gradient(135deg,#1a0030 0%,#7c3aed 50%,#00e5c8 100%)', label: '◎', caption: 'Магия частиц' },
 ]
 
 // ─────────────────────────────────────────────
@@ -535,9 +548,9 @@ export default function Landing() {
               <div className={styles.carTrack} ref={vidTrackRef}>
                 {VID_ITEMS.map((v, i) => (
                   <figure key={i} className={`${styles.carItem} ${styles.carVideo}`}>
-                    <video playsInline muted loop controls preload="metadata" poster={v.poster || undefined}>
-                      <source src={v.src} type="video/mp4" />
-                    </video>
+                    <div className={styles.vidGradCard} style={{ background: v.grad }}>
+                      <span className={styles.vidGradLabel}>{v.label}</span>
+                    </div>
                     <figcaption>{v.caption}</figcaption>
                   </figure>
                 ))}
