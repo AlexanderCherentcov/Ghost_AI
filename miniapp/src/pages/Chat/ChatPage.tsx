@@ -7,6 +7,26 @@ import styles from './ChatPage.module.scss'
 
 const now = () => new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
 
+// Local persona fallbacks — used if backend hasn't seeded persona modes yet
+const LOCAL_PERSONAS: Record<string, BackendMode> = {
+  gpt4o: {
+    id: 'persona_gpt4o', title: 'GPT-4o стиль', icon_emoji: '🟢',
+    description: 'Структурированный, чёткий, с markdown', category: 'chat',
+  },
+  gpt4m: {
+    id: 'persona_gpt4mini', title: 'GPT-4o mini', icon_emoji: '⚡',
+    description: 'Коротко и по делу', category: 'chat',
+  },
+  claude: {
+    id: 'persona_claude', title: 'Claude стиль', icon_emoji: '🟠',
+    description: 'Вдумчивый, нюансированный', category: 'chat',
+  },
+  gemini: {
+    id: 'persona_gemini', title: 'Gemini стиль', icon_emoji: '🔵',
+    description: 'Широкий кругозор, связи между идеями', category: 'chat',
+  },
+}
+
 // Map model pill ID → backend persona mode ID
 const MODEL_TO_PERSONA: Record<string, string> = {
   gpt4o:  'persona_gpt4o',
@@ -243,14 +263,18 @@ export default function ChatPage() {
     const model = MODELS.find(m => m.id === modelId)
     if (!model) return
     setActiveModel(model)
+
     const personaModeId = MODEL_TO_PERSONA[modelId]
-    if (!personaModeId) return
-    const personaMode = backendModes.find(m => m.id === personaModeId)
-    if (personaMode) {
-      skipHistoryRef.current = true
-      setActiveMode(personaMode)
-      clearMessages()
-    }
+    if (!personaModeId) { skipHistoryRef.current = true; clearMessages(); return }
+
+    // Use backend persona if loaded, otherwise local fallback
+    const personaMode =
+      backendModes.find(m => m.id === personaModeId) ??
+      LOCAL_PERSONAS[modelId]
+
+    skipHistoryRef.current = true
+    setActiveMode(personaMode)
+    clearMessages()
   }
 
   return (
