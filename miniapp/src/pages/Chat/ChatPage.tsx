@@ -42,6 +42,7 @@ export default function ChatPage() {
   const [modesLoading, setModesLoading] = useState(true)
   const bottomRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const skipHistoryRef = useRef(false)
 
   // Load all modes from backend on mount
   useEffect(() => {
@@ -61,8 +62,12 @@ export default function ChatPage() {
     }).catch(() => {}).finally(() => setModesLoading(false))
   }, [])
 
-  // Load history when mode changes
+  // Load history when mode changes (skip when switching model pills)
   useEffect(() => {
+    if (skipHistoryRef.current) {
+      skipHistoryRef.current = false
+      return
+    }
     chatApi.history(activeMode.id, 1).then(res => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const raw: any[] = Array.isArray(res.data) ? res.data : ((res.data as any)?.messages ?? [])
@@ -153,7 +158,7 @@ export default function ChatPage() {
     clearMessages()
   }
 
-  // When model pill clicked — switch to persona mode if available
+  // When model pill clicked — switch to persona mode + start fresh chat
   const selectModel = (modelId: string) => {
     const model = MODELS.find(m => m.id === modelId)
     if (!model) return
@@ -162,6 +167,7 @@ export default function ChatPage() {
     if (personaModeId && backendModes.length > 0) {
       const personaMode = backendModes.find(m => m.id === personaModeId)
       if (personaMode) {
+        skipHistoryRef.current = true  // skip history load on mode change
         setActiveMode(personaMode)
         clearMessages()
       }
