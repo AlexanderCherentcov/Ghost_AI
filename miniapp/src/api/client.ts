@@ -94,7 +94,7 @@ export const chatApi = {
   clearHistory: (modeId: string) => api.delete(`/api/chat/history/${modeId}`),
 
   stream: async (
-    payload: { message: string; mode_id: string; conversation_id: string },
+    payload: { mode_id: string; content: string; request_id?: string },
     onChunk: (chunk: string) => void
   ) => {
     const token = useAuthStore.getState().token

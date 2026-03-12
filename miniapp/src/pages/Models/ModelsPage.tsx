@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useChatStore, MODELS, MODES } from '../../store/chatStore'
+import { useChatStore, MODELS, DEFAULT_MODE } from '../../store/chatStore'
 import styles from './ModelsPage.module.scss'
 
 const CATEGORIES = [
@@ -14,11 +14,10 @@ export default function ModelsPage() {
   const { activeModel, setActiveModel, setActiveMode } = useChatStore()
 
   const selectModel = (id: string) => {
-    const model = MODELS.find(m => m.id === id)
+    const model = MODELS.find((m: { id: string }) => m.id === id)
     if (!model) return
     setActiveModel(model)
-    const compat = MODES.find(m => model.tags.includes(m.id))
-    if (compat) setActiveMode(compat)
+    setActiveMode(DEFAULT_MODE)
     navigate('/chat')
   }
 

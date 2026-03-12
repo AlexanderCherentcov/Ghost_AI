@@ -49,3 +49,23 @@
     overflow: hidden;
   }
 }
+
+// Gold gradient text
+@mixin gold-text {
+  background: linear-gradient(135deg, $gold, $gold-light);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Custom scrollbar (thin, styled)
+@mixin custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba($pu2, 0.3) transparent;
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb {
+    background: rgba($pu2, 0.3);
+    border-radius: 4px;
+  }
+}
