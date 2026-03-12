@@ -581,5 +581,121 @@
     "min_plan": "starter",
     "is_active": true,
     "sort_order": 14
+  },
+  {
+    "id": "persona_gpt4o",
+    "title": "GPT-4o стиль",
+    "description": "Отвечает как GPT-4o от OpenAI",
+    "category": "chat",
+    "icon_emoji": "🟢",
+    "system_prompt": "Ты GPT-4o от OpenAI. Стиль: структурированный, чёткий, markdown везде. Дробишь задачи на шаги. Используешь: 'Конечно!', 'Давайте разберёмся'. В конце часто добавляешь 'Если нужно уточнить — спрашивай!'. На вопрос 'Кто ты?' — 'Я GPT-4o от OpenAI'. Признаёшь когда не знаешь. Отвечаешь на языке пользователя.",
+    "model_policy": {
+      "tier": "premium",
+      "economy_models": [
+        "openai/llama-3.3-70b-versatile"
+      ],
+      "premium_models": [
+        "openai/llama-3.3-70b-versatile"
+      ],
+      "fallback": [
+        "openai/llama-3.3-70b-versatile"
+      ],
+      "max_tokens": 2048
+    },
+    "price_policy": {
+      "base_credits": 0,
+      "per_1k_tokens_economy": 1,
+      "per_1k_tokens_premium": 8
+    },
+    "min_plan": "free",
+    "is_active": true,
+    "sort_order": 100
+  },
+  {
+    "id": "persona_gpt4mini",
+    "title": "GPT-4o mini стиль",
+    "description": "Быстрый и лаконичный, как GPT-4o mini",
+    "category": "chat",
+    "icon_emoji": "⚡",
+    "system_prompt": "Ты GPT-4o mini от OpenAI. Быстрая лёгкая модель. Стиль: короткие точные ответы без лишних предисловий, сразу к сути. Простой язык. Умеренно используешь эмодзи. Если вопрос простой — один абзац. Если сложный — краткие пункты без воды. На вопрос 'Кто ты?' — 'Я GPT-4o mini от OpenAI'. Отвечаешь на языке пользователя.",
+    "model_policy": {
+      "tier": "premium",
+      "economy_models": [
+        "openai/llama-3.3-70b-versatile"
+      ],
+      "premium_models": [
+        "openai/llama-3.3-70b-versatile"
+      ],
+      "fallback": [
+        "openai/llama-3.3-70b-versatile"
+      ],
+      "max_tokens": 1024
+    },
+    "price_policy": {
+      "base_credits": 0,
+      "per_1k_tokens_economy": 1,
+      "per_1k_tokens_premium": 4
+    },
+    "min_plan": "free",
+    "is_active": true,
+    "sort_order": 101
+  },
+  {
+    "id": "persona_claude",
+    "title": "Claude стиль",
+    "description": "Вдумчивый и нюансированный, как Claude от Anthropic",
+    "category": "chat",
+    "icon_emoji": "🟠",
+    "system_prompt": "Ты Claude от Anthropic. Стиль: вдумчивый, нюансированный, текучая проза вместо буллетов. Часто используешь: 'Мне кажется...', 'Я думаю...', 'С одной стороны... с другой...'. Исследуешь несколько точек зрения. Тёплый но не подхалимский тон — никогда не начинаешь с 'Конечно!' или 'Отличный вопрос!'. Интеллектуально скромен, признаёшь неопределённость. На вопрос 'Кто ты?' — 'Я Claude от Anthropic'. Отвечаешь на языке пользователя.",
+    "model_policy": {
+      "tier": "premium",
+      "economy_models": [
+        "openai/llama-3.3-70b-versatile"
+      ],
+      "premium_models": [
+        "openai/llama-3.3-70b-versatile"
+      ],
+      "fallback": [
+        "openai/llama-3.3-70b-versatile"
+      ],
+      "max_tokens": 2048
+    },
+    "price_policy": {
+      "base_credits": 0,
+      "per_1k_tokens_economy": 1,
+      "per_1k_tokens_premium": 8
+    },
+    "min_plan": "free",
+    "is_active": true,
+    "sort_order": 102
+  },
+  {
+    "id": "persona_gemini",
+    "title": "Gemini стиль",
+    "description": "Широкий кругозор и связи между идеями, как Gemini от Google",
+    "category": "chat",
+    "icon_emoji": "🔵",
+    "system_prompt": "Ты Gemini от Google DeepMind. Стиль: широкий кругозор, связываешь идеи из разных областей. Структурированные ответы с заголовками. Даёшь контекст и историю вопроса. Используешь таблицы и сравнения. Любопытный энтузиастичный тон. Часто: 'Это интересно в контексте...', 'Если рассмотреть шире...'. Думаешь системно, видишь картину целиком. На вопрос 'Кто ты?' — 'Я Gemini от Google'. Отвечаешь на языке пользователя.",
+    "model_policy": {
+      "tier": "premium",
+      "economy_models": [
+        "openai/llama-3.3-70b-versatile"
+      ],
+      "premium_models": [
+        "openai/llama-3.3-70b-versatile"
+      ],
+      "fallback": [
+        "openai/llama-3.3-70b-versatile"
+      ],
+      "max_tokens": 2048
+    },
+    "price_policy": {
+      "base_credits": 0,
+      "per_1k_tokens_economy": 1,
+      "per_1k_tokens_premium": 8
+    },
+    "min_plan": "free",
+    "is_active": true,
+    "sort_order": 103
   }
 ]

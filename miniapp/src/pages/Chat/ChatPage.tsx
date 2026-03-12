@@ -7,6 +7,14 @@ import styles from './ChatPage.module.scss'
 
 const now = () => new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
 
+// Map model pill ID → backend persona mode ID
+const MODEL_TO_PERSONA: Record<string, string> = {
+  gpt4o:  'persona_gpt4o',
+  gpt4m:  'persona_gpt4mini',
+  claude: 'persona_claude',
+  gemini: 'persona_gemini',
+}
+
 // Category labels in Russian
 const CATEGORY_LABELS: Record<string, string> = {
   chat:        '💬 Чат',
@@ -145,6 +153,21 @@ export default function ChatPage() {
     clearMessages()
   }
 
+  // When model pill clicked — switch to persona mode if available
+  const selectModel = (modelId: string) => {
+    const model = MODELS.find(m => m.id === modelId)
+    if (!model) return
+    setActiveModel(model)
+    const personaModeId = MODEL_TO_PERSONA[modelId]
+    if (personaModeId && backendModes.length > 0) {
+      const personaMode = backendModes.find(m => m.id === personaModeId)
+      if (personaMode) {
+        setActiveMode(personaMode)
+        clearMessages()
+      }
+    }
+  }
+
   return (
     <div className={styles.screen}>
       {/* Header */}
@@ -168,7 +191,7 @@ export default function ChatPage() {
           <button
             key={m.id}
             className={`${styles.selPill} ${m.id === activeModel.id ? styles.active : ''}`}
-            onClick={() => setActiveModel(m)}
+            onClick={() => selectModel(m.id)}
           >
             <ModelLogo modelId={m.id} size={16} />
             <span className={styles.pillLabel}>{m.name}</span>
