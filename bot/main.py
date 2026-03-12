@@ -7,7 +7,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
 from bot.core.config import BotConfig
-from bot.handlers import start, chat, image, voice, balance
+from bot.handlers import start, chat, image, voice, balance, mode
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -30,6 +30,7 @@ async def main():
 
     # Include routers
     dp.include_router(start.router)
+    dp.include_router(mode.router)
     dp.include_router(chat.router)
     dp.include_router(image.router)
     dp.include_router(voice.router)
