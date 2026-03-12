@@ -26,6 +26,16 @@ export interface ChatMode {
   placeholder: string
 }
 
+export interface BackendMode {
+  id: string
+  title: string
+  icon_emoji: string
+  description: string
+  category: string
+  min_plan?: string
+  is_locked?: boolean
+}
+
 export interface Message {
   id: string
   role: 'user' | 'assistant'

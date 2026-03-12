@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { AIModel, ChatMode, Message } from '../types'
+import type { AIModel, BackendMode, Message } from '../types'
 
 export const MODELS: AIModel[] = [
   { id:'gpt4o',  name:'GPT-4o',        icon:'gpt4o',  iconBg:'linear-gradient(135deg,#10a37f,#0a7a5f)', badge:'OpenAI',    badgeColor:'#10a37f', desc:'Флагман OpenAI. Текст, код, изображения.', tags:['text','code','image'], speed:'Быстрая', ctx:'128k' },
@@ -13,20 +13,20 @@ export const MODELS: AIModel[] = [
   { id:'runway', name:'Runway Gen-3',  icon:'runway', iconBg:'linear-gradient(135deg,#f59e0b,#b45309)', badge:'Video',     badgeColor:'#f59e0b', desc:'Кинематографическое видео, motion brush.', tags:['video'], speed:'2-3 мин', ctx:'—' },
 ]
 
-export const MODES: ChatMode[] = [
-  { id:'text',  label:'Текст',    icon:'💬', placeholder:'Задайте любой вопрос...' },
-  { id:'image', label:'Картинка', icon:'🖼️', placeholder:'Опишите изображение...' },
-  { id:'video', label:'Видео',    icon:'🎬', placeholder:'Опишите видеосцену...' },
-  { id:'audio', label:'Музыка',   icon:'🎵', placeholder:'Опишите трек или звук...' },
-  { id:'code',  label:'Код',      icon:'⌨️', placeholder:'Что написать или исправить?' },
-]
+export const DEFAULT_MODE: BackendMode = {
+  id: 'general_chat',
+  title: 'Общий чат',
+  icon_emoji: '💬',
+  description: 'Умный помощник для любых вопросов',
+  category: 'chat',
+}
 
 interface ChatStore {
   activeModel: AIModel
-  activeMode: ChatMode
+  activeMode: BackendMode
   messages: Message[]
   setActiveModel: (m: AIModel) => void
-  setActiveMode: (m: ChatMode) => void
+  setActiveMode: (m: BackendMode) => void
   addMessage: (msg: Message) => void
   updateMessage: (id: string, content: string) => void
   clearMessages: () => void
@@ -36,13 +36,13 @@ interface ChatStore {
 const WELCOME: Message = {
   id: 'welcome',
   role: 'assistant',
-  content: 'Привет! Я Ghost AI. Выберите модель и режим вверху, затем напишите что-нибудь. 🌙',
+  content: 'Привет! Я Ghost AI. Выберите режим и напишите что-нибудь. 🌙',
   time: '',
 }
 
 export const useChatStore = create<ChatStore>(set => ({
   activeModel: MODELS[0],
-  activeMode: MODES[0],
+  activeMode: DEFAULT_MODE,
   messages: [WELCOME],
   setActiveModel: (m) => set({ activeModel: m }),
   setActiveMode: (m) => set({ activeMode: m }),

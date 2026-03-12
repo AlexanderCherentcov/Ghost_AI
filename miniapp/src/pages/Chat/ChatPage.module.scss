@@ -112,7 +112,11 @@
     background: rgba(0,229,200,.12);
     border-color: rgba(0,229,200,.3);
   }
-  &:active { transform: scale(.92); }
+  &.locked {
+    opacity: .45;
+    cursor: not-allowed;
+  }
+  &:active:not(.locked) { transform: scale(.92); }
 }
 
 .chipLabel {
@@ -121,6 +125,51 @@
   color: $dim2;
 
   .active & { color: $cy; }
+}
+
+// ── Mode section (grouped by category) ──────────────
+.modeSection {
+  flex-shrink: 0;
+  max-height: 160px;
+  overflow-y: auto;
+  border-bottom: 1px solid $ln;
+  background: rgba(3,0,8,.6);
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.modesLoading {
+  padding: .7rem 1rem;
+  font-size: .72rem;
+  color: $dim2;
+}
+
+.modeGroup {
+  padding: .4rem .9rem .35rem;
+}
+
+.modeGroupLabel {
+  font-size: .6rem;
+  font-weight: 700;
+  color: $dim2;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: .3rem;
+}
+
+.modeChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+}
+
+.modeEmoji {
+  font-size: .8rem;
+}
+
+.lockIcon {
+  font-size: .6rem;
+  opacity: .6;
 }
 
 // ── Gen params ──────────────────────────────────────

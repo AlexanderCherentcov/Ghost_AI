@@ -1,47 +1,61 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { useChatStore, MODELS, MODES } from '../../store/chatStore'
+import { useChatStore, MODELS } from '../../store/chatStore'
 import { chatApi } from '../../api/client'
 import ModelLogo from '../../components/ModelLogo'
+import type { BackendMode } from '../../types'
 import styles from './ChatPage.module.scss'
 
 const now = () => new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
 
-// Map miniapp mode IDs → backend mode IDs
-const MODE_MAP: Record<string, string> = {
-  text:  'general_chat',
-  code:  'code_assistant',
-  image: 'general_chat',
-  video: 'general_chat',
-  audio: 'general_chat',
+// Category labels in Russian
+const CATEGORY_LABELS: Record<string, string> = {
+  chat:        '💬 Чат',
+  code:        '💻 Код',
+  content:     '✍️ Контент',
+  business:    '📊 Бизнес',
+  image:       '🎨 Изображения',
+  voice:       '🎤 Голос',
+  docs:        '📄 Документы',
+  education:   '📐 Обучение',
+  creative:    '🖊️ Творчество',
+  productivity:'⚡ Продуктивность',
 }
 
-const IMAGE_PARAMS = [
-  { options: ['Реализм', 'Аниме', 'Cinematic', '3D Art', 'Sketch'] },
-  { options: ['1:1', '16:9', '9:16', '3:4'] },
-  { options: ['1 шт', '2 шт', '4 шт'] },
-]
-const VIDEO_PARAMS = [
-  { options: ['5 сек', '10 сек', '15 сек', '30 сек'] },
-  { options: ['720p', '1080p', '4K'] },
-  { options: ['Реалистичный', 'Cinematic', 'Анимация'] },
-]
-const AUDIO_PARAMS = [
-  { options: ['Авто жанр', 'Pop', 'Hip-hop', 'Electronic', 'Ambient', 'Rock'] },
-  { options: ['30 сек', '1 мин', '2 мин', '3 мин'] },
-  { options: ['Энергичное', 'Расслабляющее', 'Эпическое', 'Грустное'] },
-]
-
 export default function ChatPage() {
-  const { activeModel, activeMode, messages, addMessage, updateMessage, clearMessages, setActiveModel, setActiveMode, setMessages } = useChatStore()
+  const {
+    activeModel, activeMode, messages,
+    addMessage, updateMessage, clearMessages,
+    setActiveModel, setActiveMode, setMessages,
+  } = useChatStore()
+
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
+  const [backendModes, setBackendModes] = useState<BackendMode[]>([])
+  const [modesLoading, setModesLoading] = useState(true)
   const bottomRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  // Load history from backend on mount and when mode changes
+  // Load all modes from backend on mount
   useEffect(() => {
-    const modeId = MODE_MAP[activeMode.id] ?? 'general_chat'
-    chatApi.history(modeId, 1).then(res => {
+    chatApi.modes().then(res => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const raw: any[] = Array.isArray(res.data) ? res.data : []
+      const modes: BackendMode[] = raw.map(m => ({
+        id: m.id,
+        title: m.title,
+        icon_emoji: m.icon_emoji,
+        description: m.description,
+        category: m.category,
+        min_plan: m.min_plan,
+        is_locked: m.is_locked,
+      }))
+      setBackendModes(modes)
+    }).catch(() => {}).finally(() => setModesLoading(false))
+  }, [])
+
+  // Load history when mode changes
+  useEffect(() => {
+    chatApi.history(activeMode.id, 1).then(res => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const raw: any[] = Array.isArray(res.data) ? res.data : ((res.data as any)?.messages ?? [])
       const msgs = raw.map(m => ({
@@ -53,7 +67,7 @@ export default function ChatPage() {
           : '',
       }))
       setMessages(msgs)
-    }).catch(() => { /* ignore, keep welcome */ })
+    }).catch(() => { /* keep welcome */ })
   }, [activeMode.id, setMessages])
 
   useEffect(() => {
@@ -76,18 +90,16 @@ export default function ChatPage() {
     addMessage({ id: `u${Date.now()}`, role: 'user', content: txt, time: now() })
     setTyping(true)
 
-    const backendModeId = MODE_MAP[activeMode.id] ?? 'general_chat'
     const requestId = `${Date.now()}`
     const msgId = `a${requestId}`
     let accumulated = ''
     let hadError = false
 
-    // Add placeholder message for streaming
     addMessage({ id: msgId, role: 'assistant', content: '', time: now() })
 
     try {
       await chatApi.stream(
-        { mode_id: backendModeId, content: txt, request_id: requestId } as any,
+        { mode_id: activeMode.id, content: txt, request_id: requestId } as any,
         (rawChunk) => {
           try {
             const chunk = JSON.parse(rawChunk)
@@ -121,60 +133,42 @@ export default function ChatPage() {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() }
   }
 
-  const selectModel = (id: string) => {
-    const model = MODELS.find(m => m.id === id)
-    if (!model) return
-    setActiveModel(model)
-    if (!model.tags.includes(activeMode.id)) {
-      const compat = MODES.find(m => model.tags.includes(m.id))
-      if (compat) setActiveMode(compat)
-    }
-  }
+  // Group modes by category for display
+  const modesByCategory = backendModes.reduce<Record<string, BackendMode[]>>((acc, m) => {
+    if (!acc[m.category]) acc[m.category] = []
+    acc[m.category].push(m)
+    return acc
+  }, {})
 
-  const selectMode = (id: string) => {
-    const mode = MODES.find(m => m.id === id)
-    if (!mode) return
+  const selectMode = (mode: BackendMode) => {
     setActiveMode(mode)
-    if (!activeModel.tags.includes(id)) {
-      const compat = MODELS.find(m => m.tags.includes(id))
-      if (compat) setActiveModel(compat)
-    }
+    clearMessages()
   }
-
-  const genParams =
-    activeMode.id === 'image' ? IMAGE_PARAMS :
-    activeMode.id === 'video' ? VIDEO_PARAMS :
-    activeMode.id === 'audio' ? AUDIO_PARAMS : null
 
   return (
     <div className={styles.screen}>
       {/* Header */}
       <div className={styles.hdr}>
         <div>
-          <div className={styles.hdrTitle}>{activeModel.name}</div>
-          <div className={styles.hdrSub}>{activeMode.icon} {activeMode.label}</div>
+          <div className={styles.hdrTitle}>{activeMode.icon_emoji} {activeMode.title}</div>
+          <div className={styles.hdrSub}>{activeMode.description}</div>
         </div>
         <div className={styles.hdrActions}>
-          <button className={styles.iconBtn} onClick={() => { clearMessages() }} title="Новый чат">
+          <button className={styles.iconBtn} onClick={() => clearMessages()} title="Новый чат">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-            </svg>
-          </button>
-          <button className={styles.iconBtn} onClick={() => { clearMessages() }} title="Домой">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
             </svg>
           </button>
         </div>
       </div>
 
-      {/* Model pills */}
+      {/* Model pills (visual only) */}
       <div className={`${styles.selectorBar} ${styles.modelPills}`}>
         {MODELS.map(m => (
           <button
             key={m.id}
             className={`${styles.selPill} ${m.id === activeModel.id ? styles.active : ''}`}
-            onClick={() => selectModel(m.id)}
+            onClick={() => setActiveModel(m)}
           >
             <ModelLogo modelId={m.id} size={16} />
             <span className={styles.pillLabel}>{m.name}</span>
@@ -182,30 +176,32 @@ export default function ChatPage() {
         ))}
       </div>
 
-      {/* Mode chips */}
-      <div className={styles.selectorBar}>
-        {MODES.map(m => (
-          <button
-            key={m.id}
-            className={`${styles.modeChip} ${m.id === activeMode.id ? styles.active : ''}`}
-            onClick={() => selectMode(m.id)}
-          >
-            <span>{m.icon}</span>
-            <span className={styles.chipLabel}>{m.label}</span>
-          </button>
-        ))}
+      {/* Mode selector — all backend modes grouped by category */}
+      <div className={styles.modeSection}>
+        {modesLoading ? (
+          <div className={styles.modesLoading}>Загрузка режимов...</div>
+        ) : (
+          Object.entries(modesByCategory).map(([cat, modes]) => (
+            <div key={cat} className={styles.modeGroup}>
+              <div className={styles.modeGroupLabel}>{CATEGORY_LABELS[cat] ?? cat}</div>
+              <div className={styles.modeChips}>
+                {modes.map(m => (
+                  <button
+                    key={m.id}
+                    className={`${styles.modeChip} ${m.id === activeMode.id ? styles.active : ''} ${m.is_locked ? styles.locked : ''}`}
+                    onClick={() => !m.is_locked && selectMode(m)}
+                    title={m.description}
+                  >
+                    <span className={styles.modeEmoji}>{m.icon_emoji}</span>
+                    <span className={styles.chipLabel}>{m.title}</span>
+                    {m.is_locked && <span className={styles.lockIcon}>🔒</span>}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))
+        )}
       </div>
-
-      {/* Gen params */}
-      {genParams && (
-        <div className={styles.genParams}>
-          {genParams.map((p, i) => (
-            <select key={i} className={styles.gpSelect}>
-              {p.options.map(o => <option key={o}>{o}</option>)}
-            </select>
-          ))}
-        </div>
-      )}
 
       {/* Messages */}
       <div className={styles.msgList}>
@@ -238,12 +234,11 @@ export default function ChatPage() {
       {/* Input bar */}
       <div className={styles.inputBar}>
         <div className={styles.inputRow}>
-          <button className={styles.attachBtn}>📎</button>
           <textarea
             ref={textareaRef}
             className={styles.msgInput}
             rows={1}
-            placeholder={activeMode.placeholder}
+            placeholder={`${activeMode.icon_emoji} ${activeMode.title}...`}
             value={input}
             onChange={e => { setInput(e.target.value); autoGrow() }}
             onKeyDown={handleKey}
