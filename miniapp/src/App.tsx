@@ -8,6 +8,8 @@ import HomePage from './pages/Home/HomePage'
 import ChatPage from './pages/Chat/ChatPage'
 import ModelsPage from './pages/Models/ModelsPage'
 import ProfilePage from './pages/Profile/ProfilePage'
+import PlansPage from './pages/Plans/PlansPage'
+import SupportPage from './pages/Support/SupportPage'
 import styles from './App.module.scss'
 
 export default function App() {
@@ -57,6 +59,8 @@ export default function App() {
                 <Route path="/chat"    element={<ChatPage />} />
                 <Route path="/models"  element={<ModelsPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/plans"   element={<PlansPage />} />
+                <Route path="/support" element={<SupportPage />} />
                 <Route path="*"        element={<Navigate to="/home" replace />} />
               </Routes>
             </main>
