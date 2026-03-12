@@ -35,20 +35,6 @@ const MODEL_TO_PERSONA: Record<string, string> = {
   gemini: 'persona_gemini',
 }
 
-// Category labels in Russian
-const CATEGORY_LABELS: Record<string, string> = {
-  chat:         '💬 Чат',
-  code:         '💻 Код',
-  content:      '✍️ Контент',
-  business:     '📊 Бизнес',
-  image:        '🎨 Изображения',
-  voice:        '🎤 Голос',
-  docs:         '📄 Документы',
-  education:    '📐 Обучение',
-  creative:     '🖊️ Творчество',
-  productivity: '⚡ Продуктивность',
-}
-
 export default function ChatPage() {
   const {
     activeModel, activeMode, messages,
@@ -59,7 +45,6 @@ export default function ChatPage() {
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
   const [backendModes, setBackendModes] = useState<BackendMode[]>([])
-  const [modesLoading, setModesLoading] = useState(true)
   const [isRecording, setIsRecording] = useState(false)
   const [sttLoading, setSttLoading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -69,22 +54,17 @@ export default function ChatPage() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const audioChunksRef = useRef<Blob[]>([])
 
-  // Load all modes from backend on mount
+  // Load all modes from backend on mount (used for persona lookup)
   useEffect(() => {
     chatApi.modes().then(res => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const raw: any[] = Array.isArray(res.data) ? res.data : []
-      const modes: BackendMode[] = raw.map(m => ({
-        id: m.id,
-        title: m.title,
-        icon_emoji: m.icon_emoji,
-        description: m.description,
-        category: m.category,
-        min_plan: m.min_plan,
-        is_locked: m.is_locked,
-      }))
-      setBackendModes(modes)
-    }).catch(() => {}).finally(() => setModesLoading(false))
+      setBackendModes(raw.map(m => ({
+        id: m.id, title: m.title, icon_emoji: m.icon_emoji,
+        description: m.description, category: m.category,
+        min_plan: m.min_plan, is_locked: m.is_locked,
+      })))
+    }).catch(() => {})
   }, [])
 
   // Load history when mode changes (skip when switching model pills)
@@ -244,20 +224,6 @@ export default function ChatPage() {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() }
   }
 
-  // Group modes by category
-  const modesByCategory = backendModes.reduce<Record<string, BackendMode[]>>((acc, m) => {
-    if (!acc[m.category]) acc[m.category] = []
-    acc[m.category].push(m)
-    return acc
-  }, {})
-
-  const selectMode = (mode: BackendMode) => {
-    if (mode.is_locked) return
-    skipHistoryRef.current = false
-    setActiveMode(mode)
-    clearMessages()
-  }
-
   // When model pill clicked — switch to persona mode + fresh chat
   const selectModel = (modelId: string) => {
     const model = MODELS.find(m => m.id === modelId)
@@ -304,33 +270,6 @@ export default function ChatPage() {
             <span className={styles.pillLabel}>{m.name}</span>
           </button>
         ))}
-      </div>
-
-      {/* Mode selector */}
-      <div className={styles.modeSection}>
-        {modesLoading ? (
-          <div className={styles.modesLoading}>Загрузка режимов…</div>
-        ) : (
-          Object.entries(modesByCategory).map(([cat, modes]) => (
-            <div key={cat} className={styles.modeGroup}>
-              <div className={styles.modeGroupLabel}>{CATEGORY_LABELS[cat] ?? cat}</div>
-              <div className={styles.modeChips}>
-                {modes.map(m => (
-                  <button
-                    key={m.id}
-                    className={`${styles.modeChip} ${m.id === activeMode.id ? styles.active : ''} ${m.is_locked ? styles.locked : ''}`}
-                    onClick={() => selectMode(m)}
-                    title={m.description}
-                  >
-                    <span className={styles.modeEmoji}>{m.icon_emoji}</span>
-                    <span className={styles.chipLabel}>{m.title}</span>
-                    {m.is_locked && <span className={styles.lockIcon}>🔒</span>}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))
-        )}
       </div>
 
       {/* Messages */}
