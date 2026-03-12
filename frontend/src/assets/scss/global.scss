@@ -41,7 +41,6 @@ body {
   font-family: $font-sans;
   color: $txt;
   overflow-x: hidden;
-  cursor: none;
   @include custom-scrollbar;
 
   // Multi-radial gradient background matching ghost-ai-v5.html
@@ -50,10 +49,6 @@ body {
     radial-gradient(900px 700px at 82% 22%, rgba(0,229,200,.40), transparent 50%),
     radial-gradient(1000px 900px at 55% 92%, rgba(255,75,190,.28), transparent 55%),
     linear-gradient(180deg, #070218, #15003a 45%, #001a28);
-
-  @include respond-to(md) {
-    cursor: auto;
-  }
 }
 
 // ========================

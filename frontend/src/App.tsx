@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
 import Navbar from '@/components/layout/Navbar'
-import Cursor from '@/components/ui/Cursor'
 import Particles from '@/components/ui/Particles'
 import Intro from '@/components/ui/Intro/Intro'
 import Landing from '@/pages/Landing/Landing'
@@ -18,7 +17,6 @@ export default function App() {
       <Intro />
       <div className="bg-haze" />
       <Particles />
-      <Cursor />
       <Navbar />
       <Routes>
         <Route path="/"         element={<Landing />} />
