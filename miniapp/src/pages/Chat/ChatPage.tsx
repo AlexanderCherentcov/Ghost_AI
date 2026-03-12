@@ -32,11 +32,29 @@ const AUDIO_PARAMS = [
 ]
 
 export default function ChatPage() {
-  const { activeModel, activeMode, messages, addMessage, updateMessage, clearMessages, setActiveModel, setActiveMode } = useChatStore()
+  const { activeModel, activeMode, messages, addMessage, updateMessage, clearMessages, setActiveModel, setActiveMode, setMessages } = useChatStore()
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  // Load history from backend on mount and when mode changes
+  useEffect(() => {
+    const modeId = MODE_MAP[activeMode.id] ?? 'general_chat'
+    chatApi.history(modeId, 1).then(res => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const raw: any[] = Array.isArray(res.data) ? res.data : ((res.data as any)?.messages ?? [])
+      const msgs = raw.map(m => ({
+        id: String(m.id),
+        role: m.role as 'user' | 'assistant',
+        content: m.content,
+        time: m.created_at
+          ? new Date(m.created_at).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
+          : '',
+      }))
+      setMessages(msgs)
+    }).catch(() => { /* ignore, keep welcome */ })
+  }, [activeMode.id, setMessages])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })

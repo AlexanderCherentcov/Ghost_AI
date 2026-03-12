@@ -30,6 +30,7 @@ interface ChatStore {
   addMessage: (msg: Message) => void
   updateMessage: (id: string, content: string) => void
   clearMessages: () => void
+  setMessages: (msgs: Message[]) => void
 }
 
 const WELCOME: Message = {
@@ -50,4 +51,5 @@ export const useChatStore = create<ChatStore>(set => ({
     messages: s.messages.map(m => m.id === id ? { ...m, content } : m),
   })),
   clearMessages: () => set({ messages: [WELCOME] }),
+  setMessages: (msgs) => set({ messages: msgs.length ? msgs : [WELCOME] }),
 }))
