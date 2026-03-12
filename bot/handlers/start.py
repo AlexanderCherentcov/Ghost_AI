@@ -64,14 +64,14 @@ async def cmd_start(message: types.Message, command: CommandObject):
     await message.answer(
         f"👻 <b>Ghost AI</b>\n\n"
         f"Привет, {name}!\n\n"
-        f"🤖 90 AI-режимов в одном месте:\n"
-        f"• Текст и код с GPT-4\n"
-        f"• Генерация изображений\n"
-        f"• Анализ документов (RAG)\n"
-        f"• Голосовой ввод и синтез речи\n\n"
-        f"💳 Тариф: <b>{plan.upper()}</b>\n"
-        f"💰 Кредиты: <b>{balance}</b>\n\n"
-        f"Нажми кнопку ниже, чтобы начать 👇",
+        f"💳 Тариф: <b>{plan.upper()}</b>  |  💰 Кредиты: <b>{balance}</b>\n\n"
+        f"<b>Команды:</b>\n"
+        f"• Просто пиши — отвечу в текущем режиме\n"
+        f"• 🎤 Голосовое сообщение — распознаю и отвечу\n"
+        f"• /mode — сменить режим (GPT-4o, Claude, Gemini…)\n"
+        f"• /balance — баланс и тариф\n"
+        f"• /plans — тарифы\n\n"
+        f"Или открой полный интерфейс 👇",
         reply_markup=builder.as_markup(),
     )
 
