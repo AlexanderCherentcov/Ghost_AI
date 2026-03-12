@@ -1,8 +1,11 @@
 import time
+import logging
 import httpx
 from typing import AsyncGenerator
 from app.services.providers.base import BaseLLMProvider, LLMResponse
 from app.core.config import settings
+
+logger = logging.getLogger(__name__)
 
 
 class OpenAIProvider(BaseLLMProvider):
@@ -82,6 +85,12 @@ class OpenAIProvider(BaseLLMProvider):
                     "stream": True,
                 },
             ) as response:
+                if response.status_code >= 400:
+                    body = await response.aread()
+                    logger.error(
+                        "Gemini API error %s | model=%s | body=%s",
+                        response.status_code, model, body.decode(errors="replace")
+                    )
                 response.raise_for_status()
                 async for line in response.aiter_lines():
                     if line.startswith("data: "):
