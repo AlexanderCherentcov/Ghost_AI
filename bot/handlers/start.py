@@ -15,7 +15,7 @@ async def cmd_start(message: types.Message, command: CommandObject):
 
     # Handle deep link login from website
     if command.args and command.args.startswith("login_"):
-        login_token = command.args[6:]  # strip "login_"
+        login_token = command.args[6:]
         try:
             await api_post_plain("/api/auth/telegram/login-confirm", {
                 "token": login_token,
@@ -24,20 +24,9 @@ async def cmd_start(message: types.Message, command: CommandObject):
                 "first_name": user.first_name,
                 "admin_secret": config.ADMIN_SECRET_KEY,
             })
-            await message.answer(
-                "✅ <b>Авторизация успешна!</b>\n\n"
-                "Вернитесь на сайт — вход выполнен автоматически.",
-            )
-        except Exception as e:
-            import logging as _logging
-            _logging.getLogger(__name__).error(
-                f"login-confirm failed: {type(e).__name__}: {e} | "
-                f"API_BASE_URL={config.API_BASE_URL} token={login_token[:8]}..."
-            )
-            await message.answer(
-                "❌ Ссылка для входа устарела или уже использована.\n"
-                "Попробуйте снова на сайте.",
-            )
+            await message.answer("✅ <b>Авторизация успешна!</b>\n\nВернитесь на сайт — вход выполнен автоматически.")
+        except Exception:
+            await message.answer("❌ Ссылка для входа устарела или уже использована.\nПопробуйте снова на сайте.")
         return
 
     # Auth with backend
@@ -55,9 +44,6 @@ async def cmd_start(message: types.Message, command: CommandObject):
         text="🚀 Открыть Ghost AI",
         web_app=types.WebAppInfo(url=config.MINIAPP_URL),
     )
-    builder.button(text="💰 Баланс", callback_data="balance")
-    builder.button(text="💳 Тарифы", callback_data="plans")
-    builder.adjust(1, 2)
 
     name = user.first_name or user.username or "Пользователь"
 
@@ -65,54 +51,20 @@ async def cmd_start(message: types.Message, command: CommandObject):
         f"👻 <b>Ghost AI</b>\n\n"
         f"Привет, {name}!\n\n"
         f"💳 Тариф: <b>{plan.upper()}</b>  |  💰 Кредиты: <b>{balance}</b>\n\n"
-        f"<b>Команды:</b>\n"
-        f"• Просто пиши — отвечу в текущем режиме\n"
-        f"• 🎤 Голосовое сообщение — распознаю и отвечу\n"
-        f"• /mode — сменить режим (GPT-4o, Claude, Gemini…)\n"
-        f"• /balance — баланс и тариф\n"
-        f"• /plans — тарифы\n\n"
-        f"Или открой полный интерфейс 👇",
+        f"Нажми кнопку ниже, чтобы открыть приложение 👇",
         reply_markup=builder.as_markup(),
     )
 
 
-@router.callback_query(lambda c: c.data == "balance")
-async def show_balance(callback: types.CallbackQuery):
-    user = callback.from_user
-    try:
-        token = await get_user_token(user.id, user.username, user.first_name)
-        data = await api_get("/api/user/balance", token)
-        text = (
-            f"💰 <b>Ваш баланс</b>\n\n"
-            f"Основной: <b>{data['balance']}</b> кредитов\n"
-            f"Бонусный: <b>{data['bonus_balance']}</b> кредитов\n"
-            f"Итого: <b>{data['total']}</b>\n\n"
-            f"📊 Тариф: <b>{data['plan_id'].upper()}</b>\n"
-            f"📅 Использовано за день: {data['daily_used']}"
-            + (f" / {data['daily_limit']}" if data.get('daily_limit') else "")
-        )
-    except Exception as e:
-        text = f"❌ Ошибка получения баланса: {str(e)[:100]}"
-
-    await callback.message.edit_text(text, parse_mode="HTML")
-    await callback.answer()
-
-
-@router.callback_query(lambda c: c.data == "plans")
-async def show_plans(callback: types.CallbackQuery):
-    text = (
-        "💳 <b>Тарифы Ghost AI</b>\n\n"
-        "🆓 <b>Free</b> — 0 ₽\n"
-        "15 кредитов · Базовый чат\n\n"
-        "⚡ <b>Starter</b> — 490 ₽/мес\n"
-        "800 кредитов/мес · 40 режимов · STT\n\n"
-        "🚀 <b>Pro</b> — 890 ₽/мес\n"
-        "2500 кредитов/мес · 75 режимов · Изображения · RAG\n\n"
-        "🎨 <b>Creator</b> — 1690 ₽/мес\n"
-        "8000 кредитов/мес · Все 90 режимов · HD изображения\n\n"
-        "👑 <b>Elite</b> — 5990 ₽/мес\n"
-        "40000 кредитов/мес · Видео · Приоритет · API\n\n"
-        "Оформить подписку: ghostai.ru"
+@router.message()
+async def handle_any(message: types.Message):
+    """Any message → redirect to miniapp"""
+    builder = InlineKeyboardBuilder()
+    builder.button(
+        text="🚀 Открыть Ghost AI",
+        web_app=types.WebAppInfo(url=config.MINIAPP_URL),
     )
-    await callback.message.edit_text(text, parse_mode="HTML")
-    await callback.answer()
+    await message.reply(
+        "Используй приложение для общения с AI 👇",
+        reply_markup=builder.as_markup(),
+    )
