@@ -112,8 +112,8 @@
 }
 
 @keyframes numGlow {
-  0%, 100% { filter: drop-shadow(0 0 35px rgba(0,229,200,.18)); }
-  50%       { filter: drop-shadow(0 0 80px rgba(0,229,200,.5)); }
+  0%, 100% { opacity: .85; }
+  50%       { opacity: 1; }
 }
 
 .heroDesc {
@@ -194,6 +194,7 @@
   border-radius: 32px;
   overflow: hidden;
   position: relative;
+  will-change: transform;
   animation: ghostFloat 7s ease-in-out infinite;
   // soft edge mask — blends into dark bg
   -webkit-mask-image: radial-gradient(ellipse 88% 90% at 50% 48%, black 48%, transparent 100%);
@@ -249,15 +250,15 @@
     radial-gradient(closest-side at 55% 45%, rgba(0,229,200,.10), transparent 60%),
     radial-gradient(closest-side at 40% 55%, rgba(124,58,237,.14), transparent 60%);
   filter: blur(18px);
-  opacity: .9;
   pointer-events: none;
+  will-change: opacity;
   animation: auraMove 10s ease-in-out infinite;
   z-index: -1;
 }
 
 @keyframes auraMove {
-  0%, 100% { transform: translate3d(-1%, 0, 0) scale(1.00); }
-  50%       { transform: translate3d(1%, -1%, 0) scale(1.03); }
+  0%, 100% { opacity: .85; }
+  50%       { opacity: 1; }
 }
 
 // ─────────────────────────────────────────────
@@ -287,6 +288,7 @@
 .beltTrack {
   display: flex;
   width: max-content;
+  will-change: transform;
   animation: marquee 28s linear infinite;
 
   &:hover { animation-play-state: paused; }
@@ -695,13 +697,13 @@
 .vidGradLabel {
   font-size: 5rem;
   opacity: .35;
-  filter: blur(1px);
+  will-change: transform;
   animation: vidSpin 12s linear infinite;
 }
 
 @keyframes vidPulse {
-  0%, 100% { filter: brightness(1); }
-  50%       { filter: brightness(1.18) saturate(1.2); }
+  0%, 100% { opacity: .88; }
+  50%       { opacity: 1; }
 }
 
 @keyframes vidSpin {

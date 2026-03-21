@@ -19,6 +19,23 @@ export default function Login() {
     if (token) navigate('/dashboard')
   }, [token, navigate])
 
+  // Handle OAuth redirect with ?token= param
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const oauthToken = params.get('token')
+    if (!oauthToken) return
+    window.history.replaceState({}, '', window.location.pathname)
+    localStorage.setItem('token', oauthToken)
+    authApi.me().then(({ data: user }) => {
+      setAuth(oauthToken, user as User)
+      navigate('/dashboard')
+    }).catch(() => {
+      localStorage.removeItem('token')
+      addToast('error', 'Ошибка авторизации. Попробуйте снова.')
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   // Cleanup polling on unmount
   useEffect(() => () => {
     if (pollRef.current) clearInterval(pollRef.current)
