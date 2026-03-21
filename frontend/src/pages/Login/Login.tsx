@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { authApi } from '@/api/client'
+import { authApi, userApi } from '@/api/client'
 import { useAuthStore } from '@/store/authStore'
 import { useUIStore } from '@/store/uiStore'
 import type { User } from '@/types'
@@ -26,7 +26,7 @@ export default function Login() {
     if (!oauthToken) return
     window.history.replaceState({}, '', window.location.pathname)
     localStorage.setItem('token', oauthToken)
-    authApi.me().then(({ data: user }) => {
+    userApi.me().then(({ data: user }) => {
       setAuth(oauthToken, user as User)
       navigate('/dashboard')
     }).catch(() => {
