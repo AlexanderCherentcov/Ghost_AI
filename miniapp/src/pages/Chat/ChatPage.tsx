@@ -10,7 +10,7 @@ const now = () => new Date().toLocaleTimeString('ru', { hour: '2-digit', minute:
 // Local persona fallbacks — used if backend hasn't seeded persona modes yet
 const LOCAL_PERSONAS: Record<string, BackendMode> = {
   gpt4o: {
-    id: 'persona_gpt4o', title: 'GPT-4o стиль', icon_emoji: '🟢',
+    id: 'persona_gpt4o', title: 'GPT-4o', icon_emoji: '🟢',
     description: 'Структурированный, чёткий, с markdown', category: 'chat',
   },
   gpt4m: {
@@ -18,11 +18,11 @@ const LOCAL_PERSONAS: Record<string, BackendMode> = {
     description: 'Коротко и по делу', category: 'chat',
   },
   claude: {
-    id: 'persona_claude', title: 'Claude стиль', icon_emoji: '🟠',
+    id: 'persona_claude', title: 'Claude', icon_emoji: '🟠',
     description: 'Вдумчивый, нюансированный', category: 'chat',
   },
   gemini: {
-    id: 'persona_gemini', title: 'Gemini стиль', icon_emoji: '🔵',
+    id: 'persona_gemini', title: 'Gemini', icon_emoji: '🔵',
     description: 'Широкий кругозор, связи между идеями', category: 'chat',
   },
 }
